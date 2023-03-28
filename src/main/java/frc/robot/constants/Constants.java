@@ -54,12 +54,13 @@ public final class Constants {
   public static class Drivetrain {
     // MODULE LOAD ORDER IS FRONT LEFT -> FRONT RIGHT -> BACK LEFT -> BACK RIGHT
 
-    public static final SwerveDriveKinematics kKinematics = new SwerveDriveKinematics(
-            new Translation2d(), // FRONT LEFT
-            new Translation2d(), // FRONT RIGHT
-            new Translation2d(), // BACK LEFT
-            new Translation2d() // BACK RIGHT
-    );
+    public static final SwerveDriveKinematics kKinematics =
+        new SwerveDriveKinematics(
+            FrontLeft.kCenterOffset, // FRONT LEFT
+            FrontRight.kCenterOffset, // FRONT RIGHT
+            BackLeft.kCenterOffset, // BACK LEFT
+            BackRight.kCenterOffset // BACK RIGHT
+            );
 
     public static final boolean kTurnMotorInverted = true;
 
@@ -72,8 +73,29 @@ public final class Constants {
     public static final double kWheelRadiusInches = 2;
     public static final double KWheelRadiusMeters = Units.inchesToMeters(kWheelRadiusInches);
 
-    public static final double kDriveMotorConversionFactor = 2 * Math.PI * KWheelRadiusMeters / kDriveGearRatio;
+    public static final double kDriveMotorConversionFactor =
+        2 * Math.PI * KWheelRadiusMeters / kDriveGearRatio;
     public static final double kSteerMotorConversionFactor = 2 * Math.PI / kSteerGearRatio;
+
+    public static class FrontLeft {
+      public static final Translation2d kCenterOffset = new Translation2d(); // TODO
+      public static final double kMagneticOffsetDegrees = 0.0; // TODO
+    }
+
+    public static class FrontRight {
+      public static final Translation2d kCenterOffset = new Translation2d(); // TODO
+      public static final double kMagneticOffsetDegrees = 0.0; // TODO
+    }
+
+    public static class BackLeft {
+      public static final Translation2d kCenterOffset = new Translation2d(); // TODO
+      public static final double kMagneticOffsetDegrees = 0.0; // TODO
+    }
+
+    public static class BackRight {
+      public static final Translation2d kCenterOffset = new Translation2d(); // TODO
+      public static final double kMagneticOffsetDegrees = 0.0; // TODO
+    }
 
     public static class ControlValues {
       public static class Drive {
