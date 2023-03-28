@@ -12,6 +12,8 @@ public class DriveControl extends CommandBase {
   public DriveControl(DriveBase driveBase, DriverInterface driverInterface) {
     m_driveBase = driveBase;
     m_driverInterface = driverInterface;
+
+    addRequirements(driveBase);
   }
 
   @Override
