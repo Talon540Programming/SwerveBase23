@@ -1,5 +1,7 @@
 package frc.robot.drive;
 
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -23,6 +25,8 @@ public class DriveBase extends SubsystemBase {
   private final GyroIO m_gyroIO;
   private final GyroInputsAutoLogged m_gyroInputs = new GyroInputsAutoLogged();
 
+  private final SwerveDrivePoseEstimator m_estimator;
+
   public DriveBase(
       SwerveModuleIO frontLeft,
       SwerveModuleIO frontRight,
@@ -35,6 +39,13 @@ public class DriveBase extends SubsystemBase {
     for (SwerveModuleIO module : m_moduleIOs) {
       module.resyncEncoders();
     }
+
+    m_estimator =
+        new SwerveDrivePoseEstimator(
+            Constants.Drivetrain.kKinematics,
+            m_gyroIO.getHeading(),
+            getModulePositions(),
+            new Pose2d());
   }
 
   @Override
@@ -46,6 +57,14 @@ public class DriveBase extends SubsystemBase {
 
     m_gyroIO.updateInputs(m_gyroInputs);
     Logger.getInstance().processInputs("Drive/Gyro", m_gyroInputs);
+
+    m_estimator.update(m_gyroIO.getHeading(), getModulePositions());
+
+    Logger.getInstance().recordOutput("EstimatedPose", m_estimator.getEstimatedPosition());
+  }
+
+  public void resetOdometry(Pose2d poseMeters) {
+    m_estimator.resetPosition(m_gyroIO.getHeading(), getModulePositions(), poseMeters);
   }
 
   /** Return module states in order of kinematic initialization from modules */
@@ -115,19 +134,6 @@ public class DriveBase extends SubsystemBase {
   public final void setFromForces(
       double xSpeed, double ySpeed, double rotationalSpeed, DriveMode driveMode) {
     setFromForces(xSpeed, ySpeed, rotationalSpeed, new Translation2d(), driveMode);
-  }
-
-  /**
-   * (NO SPIN) Control method to convert input stuff to drive stuff for all the modules without
-   * applying a spin value to the drivetrain. Think... tank drive
-   *
-   * @param xSpeed Horizontal speed to derive module states in meters per second
-   * @param ySpeed Vertical speed to derive module states in meters per second
-   * @param driveMode Control input method to derive module states from: {@code DriveMode.FIELD} or
-   *     {@code DriveMode.DRIVER} (default FIELD)
-   */
-  public final void setFromForces(double xSpeed, double ySpeed, DriveMode driveMode) {
-    this.setFromForces(xSpeed, ySpeed, 0, driveMode);
   }
 
   /** Apply module states to modules based on a ChassisSpeed object */
