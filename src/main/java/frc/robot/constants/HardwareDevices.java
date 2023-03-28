@@ -1,6 +1,8 @@
 package frc.robot.constants;
 
 public class HardwareDevices {
+  public static final int kDriverControllerPort = 0;
+
   public static class SwerveBase {
     public static final int kGyroId = 0; // TODO
 
