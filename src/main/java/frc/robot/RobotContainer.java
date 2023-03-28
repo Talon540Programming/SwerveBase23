@@ -6,7 +6,7 @@ import frc.robot.constants.Constants;
 import frc.robot.constants.HardwareDevices;
 import frc.robot.constants.HardwareDevices.SwerveBase.Drivetrain.*;
 import frc.robot.drive.*;
-import frc.robot.drive.commands.GyroIOSim;
+import frc.robot.drive.GyroIOSim;
 import frc.robot.drive.commands.control.DriveControl;
 import frc.robot.oi.OIManager;
 
