@@ -22,6 +22,7 @@ public class RobotContainer {
         case ROBOT_SWERVE -> {
           m_driveBase =
               new DriveBase(
+                  new GyroIOPigeon2(HardwareDevices.SwerveBase.kGyroId),
                   // FRONT LEFT
                   new SwerveModuleIOMK4DualSparkMax(
                       FrontLeft.kDriveMotorId,
@@ -57,8 +58,7 @@ public class RobotContainer {
                       Constants.Drivetrain.kTurnMotorInverted,
                       Constants.Drivetrain.kDriveMotorConversionFactor,
                       Constants.Drivetrain.kSteerMotorConversionFactor,
-                      Constants.Drivetrain.BackRight.kMagneticOffsetDegrees),
-                  new GyroIOPigeon2(HardwareDevices.SwerveBase.kGyroId));
+                      Constants.Drivetrain.BackRight.kMagneticOffsetDegrees));
         }
         case ROBOT_SIMBOT -> {}
       }
@@ -68,11 +68,11 @@ public class RobotContainer {
         m_driveBase != null
             ? m_driveBase
             : new DriveBase(
+                new GyroIO() {},
                 new SwerveModuleIO() {},
                 new SwerveModuleIO() {},
                 new SwerveModuleIO() {},
-                new SwerveModuleIO() {},
-                new GyroIO() {});
+                new SwerveModuleIO() {});
 
     configureBindings();
     configureAuto();

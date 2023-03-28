@@ -28,11 +28,11 @@ public class DriveBase extends SubsystemBase {
   private final SwerveDrivePoseEstimator m_estimator;
 
   public DriveBase(
+      GyroIO gyro,
       SwerveModuleIO frontLeft,
       SwerveModuleIO frontRight,
       SwerveModuleIO backLeft,
-      SwerveModuleIO backRight,
-      GyroIO gyro) {
+      SwerveModuleIO backRight) {
     m_moduleIOs = new SwerveModuleIO[] {frontLeft, frontRight, backLeft, backRight};
     m_gyroIO = gyro;
 
@@ -70,20 +70,20 @@ public class DriveBase extends SubsystemBase {
   /** Return module states in order of kinematic initialization from modules */
   private SwerveModuleState[] getModuleStates() {
     return new SwerveModuleState[] {
-      this.m_moduleIOs[0].getState(),
-      this.m_moduleIOs[1].getState(),
-      this.m_moduleIOs[2].getState(),
-      this.m_moduleIOs[3].getState()
+      m_moduleIOs[0].getState(),
+      m_moduleIOs[1].getState(),
+      m_moduleIOs[2].getState(),
+      m_moduleIOs[3].getState()
     };
   }
 
   /** Return module positions in order of kinematic initialization from modules */
   private SwerveModulePosition[] getModulePositions() {
     return new SwerveModulePosition[] {
-      this.m_moduleIOs[0].getPosition(),
-      this.m_moduleIOs[1].getPosition(),
-      this.m_moduleIOs[2].getPosition(),
-      this.m_moduleIOs[3].getPosition()
+      m_moduleIOs[0].getPosition(),
+      m_moduleIOs[1].getPosition(),
+      m_moduleIOs[2].getPosition(),
+      m_moduleIOs[3].getPosition()
     };
   }
 
@@ -112,7 +112,7 @@ public class DriveBase extends SubsystemBase {
       Translation2d centerOfRobot,
       DriveMode driveMode) {
 
-    this.setFromModuleStates(
+    setFromModuleStates(
         Constants.Drivetrain.kKinematics.toSwerveModuleStates(
             switch (driveMode) {
               case kRobot -> new ChassisSpeeds(xSpeed, ySpeed, rotationalSpeed);
@@ -138,7 +138,7 @@ public class DriveBase extends SubsystemBase {
 
   /** Apply module states to modules based on a ChassisSpeed object */
   public final void setFromChassisSpeed(ChassisSpeeds chassisSpeed) {
-    this.setFromModuleStates(Constants.Drivetrain.kKinematics.toSwerveModuleStates(chassisSpeed));
+    setFromModuleStates(Constants.Drivetrain.kKinematics.toSwerveModuleStates(chassisSpeed));
   }
 
   /**
