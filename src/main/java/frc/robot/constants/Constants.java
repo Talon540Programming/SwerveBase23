@@ -1,6 +1,9 @@
 package frc.robot.constants;
 
 import com.revrobotics.CANSparkMax;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
 
@@ -46,6 +49,47 @@ public final class Constants {
       case ROBOT_SWERVE -> RobotBase.isReal() ? RobotMode.REAL : RobotMode.REPLAY;
       case ROBOT_SIMBOT -> RobotMode.SIM;
     };
+  }
+
+  public static class Drivetrain {
+    // MODULE LOAD ORDER IS FRONT LEFT -> FRONT RIGHT -> BACK LEFT -> BACK RIGHT
+
+    public static final SwerveDriveKinematics kKinematics = new SwerveDriveKinematics(
+            new Translation2d(), // FRONT LEFT
+            new Translation2d(), // FRONT RIGHT
+            new Translation2d(), // BACK LEFT
+            new Translation2d() // BACK RIGHT
+    );
+
+    public static final boolean kTurnMotorInverted = true;
+
+    public static final double kMaxVelocityMetersPerSecond = 4;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 3.5;
+
+    public static final double kDriveGearRatio = 8.14; // SDS MK4 L1
+    public static final double kSteerGearRatio = 12.8;
+
+    public static final double kWheelRadiusInches = 2;
+    public static final double KWheelRadiusMeters = Units.inchesToMeters(kWheelRadiusInches);
+
+    public static final double kDriveMotorConversionFactor = 2 * Math.PI * KWheelRadiusMeters / kDriveGearRatio;
+    public static final double kSteerMotorConversionFactor = 2 * Math.PI / kSteerGearRatio;
+
+    public static class ControlValues {
+      public static class Drive {
+        public static final double kP = 0;
+        public static final double kI = 0;
+        public static final double kD = 0;
+        public static final double kFF = 0;
+      }
+
+      public static class Steer {
+        public static final double kP = 0;
+        public static final double kI = 0;
+        public static final double kD = 0;
+        public static final double kFF = 0;
+      }
+    }
   }
 
   public enum NeutralMode {
