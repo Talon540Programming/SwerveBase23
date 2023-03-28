@@ -23,7 +23,7 @@ public class XboxDriver implements DriverInterface {
 
   @Override
   public double getRotationalPercent() {
-    return MathUtil.applyDeadband(m_controller.getRightX(), 0.15);
+    return -MathUtil.applyDeadband(m_controller.getRightX(), 0.15);
   }
 
   @Override
