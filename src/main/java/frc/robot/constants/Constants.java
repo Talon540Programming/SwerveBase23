@@ -13,7 +13,7 @@ public final class Constants {
    */
   public static final boolean kAdvancedLoggingEnabled = true;
 
-  private static RobotType kRobotType = RobotType.ROBOT_SWERVE;
+  private static RobotType kRobotType = RobotType.ROBOT_SIMBOT;
   public static final double loopPeriodSecs = 0.02;
 
   public enum RobotMode {
@@ -64,7 +64,7 @@ public final class Constants {
 
     public static final boolean kTurnMotorInverted = true;
 
-    public static final double kMaxVelocityMetersPerSecond = 4;
+    public static final double kMaxVelocityMetersPerSecond = Units.feetToMeters(12.0);
     public static final double kMaxAccelerationMetersPerSecondSquared = 3.5;
     public static final double kMaxRotationVelocityRadPerSecond = 2 * Math.PI;
 
@@ -79,36 +79,40 @@ public final class Constants {
     public static final double kSteerMotorConversionFactor = 2 * Math.PI / kSteerGearRatio;
 
     public static class FrontLeft {
-      public static final Translation2d kCenterOffset = new Translation2d(); // TODO
+      public static final Translation2d kCenterOffset =
+          new Translation2d(Units.inchesToMeters(8.825180), Units.inchesToMeters(8.825180));
       public static final double kMagneticOffsetDegrees = 0.0; // TODO
     }
 
     public static class FrontRight {
-      public static final Translation2d kCenterOffset = new Translation2d(); // TODO
+      public static final Translation2d kCenterOffset =
+          new Translation2d(Units.inchesToMeters(8.825180), -Units.inchesToMeters(8.825180));
       public static final double kMagneticOffsetDegrees = 0.0; // TODO
     }
 
     public static class BackLeft {
-      public static final Translation2d kCenterOffset = new Translation2d(); // TODO
+      public static final Translation2d kCenterOffset =
+          new Translation2d(-Units.inchesToMeters(8.825180), Units.inchesToMeters(8.825180));
       public static final double kMagneticOffsetDegrees = 0.0; // TODO
     }
 
     public static class BackRight {
-      public static final Translation2d kCenterOffset = new Translation2d(); // TODO
+      public static final Translation2d kCenterOffset =
+          new Translation2d(-Units.inchesToMeters(8.825180), -Units.inchesToMeters(8.825180));
       public static final double kMagneticOffsetDegrees = 0.0; // TODO
     }
 
     public static class ControlValues {
       public static class Drive {
-        public static final double kP = 0;
-        public static final double kI = 0;
-        public static final double kD = 0;
+        public static final double kP = 0; // TODO
+        public static final double kI = 0; // TODO
+        public static final double kD = 0; // TODO
       }
 
       public static class Steer {
-        public static final double kP = 0;
-        public static final double kI = 0;
-        public static final double kD = 0;
+        public static final double kP = 0; // TODO
+        public static final double kI = 0; // TODO
+        public static final double kD = 0; // TODO
       }
     }
   }
