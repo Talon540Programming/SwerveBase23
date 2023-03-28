@@ -66,6 +66,7 @@ public final class Constants {
 
     public static final double kMaxVelocityMetersPerSecond = 4;
     public static final double kMaxAccelerationMetersPerSecondSquared = 3.5;
+    public static final double kMaxRotationVelocityRadPerSecond = 2 * Math.PI;
 
     public static final double kDriveGearRatio = 8.14; // SDS MK4 L1
     public static final double kSteerGearRatio = 12.8;

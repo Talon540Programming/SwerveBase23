@@ -6,9 +6,13 @@ import frc.robot.constants.Constants;
 import frc.robot.constants.HardwareDevices;
 import frc.robot.constants.HardwareDevices.SwerveBase.Drivetrain.*;
 import frc.robot.drive.*;
+import frc.robot.drive.commands.control.DriveControl;
+import frc.robot.oi.OIManager;
 
 public class RobotContainer {
   private DriveBase m_driveBase;
+
+  private final OIManager m_OIManager = new OIManager();
 
   public RobotContainer() {
     SparkMaxBurnManager.checkBuildStatus();
@@ -74,7 +78,9 @@ public class RobotContainer {
     configureAuto();
   }
 
-  private void configureBindings() {}
+  private void configureBindings() {
+    m_driveBase.setDefaultCommand(new DriveControl(m_driveBase, m_OIManager.getDriverInterface()));
+  }
 
   private void configureAuto() {}
 
