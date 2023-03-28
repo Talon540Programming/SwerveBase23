@@ -3,7 +3,6 @@ package frc.robot.drive;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.simulation.AnalogGyroSim;
 import frc.robot.constants.Constants;
-import frc.robot.drive.GyroIO;
 
 public class GyroIOSim implements GyroIO {
   private final AnalogGyroSim m_gyro = new AnalogGyroSim(1);
