@@ -32,7 +32,7 @@ public class DriveBase extends SubsystemBase {
     m_moduleIOs = new SwerveModuleIO[] {frontLeft, frontRight, backLeft, backRight};
     m_gyroIO = gyro;
 
-    for(SwerveModuleIO module : m_moduleIOs) {
+    for (SwerveModuleIO module : m_moduleIOs) {
       module.resyncEncoders();
     }
   }
@@ -51,20 +51,20 @@ public class DriveBase extends SubsystemBase {
   /** Return module states in order of kinematic initialization from modules */
   private SwerveModuleState[] getModuleStates() {
     return new SwerveModuleState[] {
-            this.m_moduleIOs[0].getState(),
-            this.m_moduleIOs[1].getState(),
-            this.m_moduleIOs[2].getState(),
-            this.m_moduleIOs[3].getState()
+      this.m_moduleIOs[0].getState(),
+      this.m_moduleIOs[1].getState(),
+      this.m_moduleIOs[2].getState(),
+      this.m_moduleIOs[3].getState()
     };
   }
 
   /** Return module positions in order of kinematic initialization from modules */
   private SwerveModulePosition[] getModulePositions() {
     return new SwerveModulePosition[] {
-            this.m_moduleIOs[0].getPosition(),
-            this.m_moduleIOs[1].getPosition(),
-            this.m_moduleIOs[2].getPosition(),
-            this.m_moduleIOs[3].getPosition()
+      this.m_moduleIOs[0].getPosition(),
+      this.m_moduleIOs[1].getPosition(),
+      this.m_moduleIOs[2].getPosition(),
+      this.m_moduleIOs[3].getPosition()
     };
   }
 
@@ -87,20 +87,20 @@ public class DriveBase extends SubsystemBase {
    *     {@code DriveMode.DRIVER} (default FIELD)
    */
   public final void setFromForces(
-          double xSpeed,
-          double ySpeed,
-          double rotationalSpeed,
-          Translation2d centerOfRobot,
-          DriveMode driveMode) {
+      double xSpeed,
+      double ySpeed,
+      double rotationalSpeed,
+      Translation2d centerOfRobot,
+      DriveMode driveMode) {
 
     this.setFromModuleStates(
-            Constants.Drivetrain.kKinematics.toSwerveModuleStates(
-                    switch (driveMode) {
-                      case kRobot -> new ChassisSpeeds(xSpeed, ySpeed, rotationalSpeed);
-                      case kField -> ChassisSpeeds.fromFieldRelativeSpeeds(
-                              xSpeed, ySpeed, rotationalSpeed, getHeading());
-                    },
-                    centerOfRobot));
+        Constants.Drivetrain.kKinematics.toSwerveModuleStates(
+            switch (driveMode) {
+              case kRobot -> new ChassisSpeeds(xSpeed, ySpeed, rotationalSpeed);
+              case kField -> ChassisSpeeds.fromFieldRelativeSpeeds(
+                  xSpeed, ySpeed, rotationalSpeed, getHeading());
+            },
+            centerOfRobot));
   }
 
   /**
@@ -113,7 +113,7 @@ public class DriveBase extends SubsystemBase {
    *     {@code DriveMode.DRIVER}
    */
   public final void setFromForces(
-          double xSpeed, double ySpeed, double rotationalSpeed, DriveMode driveMode) {
+      double xSpeed, double ySpeed, double rotationalSpeed, DriveMode driveMode) {
     setFromForces(xSpeed, ySpeed, rotationalSpeed, new Translation2d(), driveMode);
   }
 
@@ -141,7 +141,8 @@ public class DriveBase extends SubsystemBase {
    * @implNote MODULES MUST BE GIVEN IN ORDER: FRONT LEFT -> FRONT RIGHT -> BACK LEFT -> BACK RIGHT
    */
   public final void setFromModuleStates(SwerveModuleState[] states) {
-    SwerveDriveKinematics.desaturateWheelSpeeds(states, Constants.Drivetrain.kMaxVelocityMetersPerSecond);
+    SwerveDriveKinematics.desaturateWheelSpeeds(
+        states, Constants.Drivetrain.kMaxVelocityMetersPerSecond);
 
     for (int i = 0; i < 4; i++) {
       m_moduleIOs[i].setState(states[i]);
@@ -149,7 +150,7 @@ public class DriveBase extends SubsystemBase {
   }
 
   public void stop() {
-    for(SwerveModuleIO module : m_moduleIOs) {
+    for (SwerveModuleIO module : m_moduleIOs) {
       module.stop();
     }
   }

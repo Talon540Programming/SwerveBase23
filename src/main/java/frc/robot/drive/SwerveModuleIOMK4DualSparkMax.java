@@ -27,17 +27,17 @@ public class SwerveModuleIOMK4DualSparkMax implements SwerveModuleIO {
   private final WPI_CANCoder m_absoluteEncoder;
 
   public SwerveModuleIOMK4DualSparkMax(
-          int driveMotorId,
-          int steerMotorId,
-          int absoluteEncoderId,
-          boolean steerInverted,
-          double driveConversionFactor,
-          double steerConversionFactor,
-          double absoluteEncoderOffsetDegrees) {
+      int driveMotorId,
+      int steerMotorId,
+      int absoluteEncoderId,
+      boolean steerInverted,
+      double driveConversionFactor,
+      double steerConversionFactor,
+      double absoluteEncoderOffsetDegrees) {
     m_driveMotor = new CANSparkMax(driveMotorId, CANSparkMaxLowLevel.MotorType.kBrushless);
     m_steerMotor = new CANSparkMax(steerMotorId, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-    if(SparkMaxBurnManager.shouldBurnFlash()) {
+    if (SparkMaxBurnManager.shouldBurnFlash()) {
       m_driveMotor.restoreFactoryDefaults();
       m_steerMotor.restoreFactoryDefaults();
     }
@@ -91,7 +91,7 @@ public class SwerveModuleIOMK4DualSparkMax implements SwerveModuleIO {
     m_driveMotor.setCANTimeout(0);
     m_steerMotor.setCANTimeout(0);
 
-    if(SparkMaxBurnManager.shouldBurnFlash()) {
+    if (SparkMaxBurnManager.shouldBurnFlash()) {
       m_driveMotor.burnFlash();
       m_steerMotor.burnFlash();
     }
@@ -126,18 +126,24 @@ public class SwerveModuleIOMK4DualSparkMax implements SwerveModuleIO {
 
   @Override
   public SwerveModuleState getState() {
-    return new SwerveModuleState(m_driveEncoder.getVelocity(), Rotation2d.fromRadians(m_absoluteEncoder.getAbsolutePosition()));
+    return new SwerveModuleState(
+        m_driveEncoder.getVelocity(),
+        Rotation2d.fromRadians(m_absoluteEncoder.getAbsolutePosition()));
   }
 
   @Override
   public SwerveModulePosition getPosition() {
-    return new SwerveModulePosition(m_driveEncoder.getPosition(), Rotation2d.fromRadians(m_absoluteEncoder.getAbsolutePosition()));
+    return new SwerveModulePosition(
+        m_driveEncoder.getPosition(),
+        Rotation2d.fromRadians(m_absoluteEncoder.getAbsolutePosition()));
   }
 
   @Override
   public void setState(SwerveModuleState state) {
     // Optimize the SwerveModuleState
-    state = SwerveModuleState.optimize(state, Rotation2d.fromRadians(m_absoluteEncoder.getAbsolutePosition()));
+    state =
+        SwerveModuleState.optimize(
+            state, Rotation2d.fromRadians(m_absoluteEncoder.getAbsolutePosition()));
 
     m_driveController.setReference(state.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);
     m_steerController.setReference(state.angle.getRadians(), CANSparkMax.ControlType.kPosition);
@@ -156,7 +162,8 @@ public class SwerveModuleIOMK4DualSparkMax implements SwerveModuleIO {
   }
 
   @Override
-  public void setNeutralMode(Constants.NeutralMode driveNeutralMode, Constants.NeutralMode steerNeutralMode) {
+  public void setNeutralMode(
+      Constants.NeutralMode driveNeutralMode, Constants.NeutralMode steerNeutralMode) {
     m_driveMotor.setIdleMode(driveNeutralMode.toIdleMode());
     m_steerMotor.setIdleMode(steerNeutralMode.toIdleMode());
   }

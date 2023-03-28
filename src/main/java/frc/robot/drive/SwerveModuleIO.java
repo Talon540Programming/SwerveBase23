@@ -36,5 +36,6 @@ public interface SwerveModuleIO extends LoggedIO<SwerveModuleIO.SwerveModuleInpu
 
   default void stop() {}
 
-  default void setNeutralMode(Constants.NeutralMode driveNeutralMode, Constants.NeutralMode steerNeutralMode) {}
+  default void setNeutralMode(
+      Constants.NeutralMode driveNeutralMode, Constants.NeutralMode steerNeutralMode) {}
 }
