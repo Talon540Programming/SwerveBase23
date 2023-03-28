@@ -33,4 +33,6 @@ public interface GyroIO extends LoggedIO<GyroIO.GyroInputs> {
 
   /** Reset the yaw of the gyro to 0. */
   default void resetHeading() {}
+
+  default void incrementHeading(double omegaRadiansPerSecond) {}
 }

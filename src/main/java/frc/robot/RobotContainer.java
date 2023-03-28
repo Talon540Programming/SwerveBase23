@@ -6,6 +6,7 @@ import frc.robot.constants.Constants;
 import frc.robot.constants.HardwareDevices;
 import frc.robot.constants.HardwareDevices.SwerveBase.Drivetrain.*;
 import frc.robot.drive.*;
+import frc.robot.drive.commands.GyroIOSim;
 import frc.robot.drive.commands.control.DriveControl;
 import frc.robot.oi.OIManager;
 
@@ -60,7 +61,15 @@ public class RobotContainer {
                       Constants.Drivetrain.kSteerMotorConversionFactor,
                       Constants.Drivetrain.BackRight.kMagneticOffsetDegrees));
         }
-        case ROBOT_SIMBOT -> {}
+        case ROBOT_SIMBOT -> {
+          m_driveBase =
+              new DriveBase(
+                  new GyroIOSim(),
+                  new SwerveModuleIOSim(),
+                  new SwerveModuleIOSim(),
+                  new SwerveModuleIOSim(),
+                  new SwerveModuleIOSim());
+        }
       }
     }
 

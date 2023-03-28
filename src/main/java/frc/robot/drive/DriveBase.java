@@ -63,6 +63,11 @@ public class DriveBase extends SubsystemBase {
     Logger.getInstance().recordOutput("EstimatedPose", m_estimator.getEstimatedPosition());
   }
 
+  @Override
+  public void simulationPeriodic() {
+    m_gyroIO.incrementHeading(getChassisSpeeds().omegaRadiansPerSecond);
+  }
+
   public void resetOdometry(Pose2d poseMeters) {
     m_estimator.resetPosition(m_gyroIO.getHeading(), getModulePositions(), poseMeters);
   }
