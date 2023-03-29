@@ -128,8 +128,8 @@ public class SwerveModuleIOSim implements SwerveModuleIO {
 
     inputs.DistanceTraveledMeters = m_currentPosition.distanceMeters;
     inputs.VelocityMetersPerSecond = m_currentState.speedMetersPerSecond;
-    inputs.TurnVelocityRadPerSec =
+    inputs.SteerVelocityRadPerSec =
         (m_currentPosition.angle.getRotations() - oldAngleRad) / Constants.loopPeriodSecs;
-    inputs.TurnPositionRad = m_currentPosition.angle.getRadians();
+    inputs.SteerPositionRad = m_currentPosition.angle.getRadians();
   }
 }

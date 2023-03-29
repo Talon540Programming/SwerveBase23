@@ -62,7 +62,7 @@ public final class Constants {
             BackRight.kCenterOffset // BACK RIGHT
             );
 
-    public static final boolean kTurnMotorInverted = true;
+    public static final boolean kSteerMotorInverted = true;
 
     public static final double kMaxVelocityMetersPerSecond = Units.feetToMeters(12.0);
     public static final double kMaxAccelerationMetersPerSecondSquared = 3.5;

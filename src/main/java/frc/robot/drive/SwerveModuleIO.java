@@ -14,10 +14,10 @@ public interface SwerveModuleIO extends LoggedIO<SwerveModuleIO.SwerveModuleInpu
     public double DistanceTraveledMeters;
     public double VelocityMetersPerSecond;
 
-    public double TurnCurrentAmps;
-    public double TurnTempCelsius;
-    public double TurnPositionRad;
-    public double TurnVelocityRadPerSec;
+    public double SteerCurrentAmps;
+    public double SteerTempCelsius;
+    public double SteerPositionRad;
+    public double SteerVelocityRadPerSec;
 
     public double AbsoluteModulePositionRad;
   }
