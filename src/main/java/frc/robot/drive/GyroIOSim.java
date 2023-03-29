@@ -9,8 +9,8 @@ public class GyroIOSim implements GyroIO {
 
   @Override
   public void updateInputs(GyroInputs inputs) {
-    inputs.GyroPositionYawRad = m_gyro.getAngle();
-    inputs.GyroRateYawRadPerSecond = m_gyro.getRate();
+    inputs.YawPositionRad = m_gyro.getAngle();
+    inputs.YawRateRadPerSecond = m_gyro.getRate();
   }
 
   @Override

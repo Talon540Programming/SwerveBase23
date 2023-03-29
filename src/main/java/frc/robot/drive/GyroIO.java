@@ -9,13 +9,13 @@ public interface GyroIO extends LoggedIO<GyroIO.GyroInputs> {
   public class GyroInputs {
     public boolean Connected;
 
-    public double GyroPositionYawRad;
-    public double GyroPositionPitchRad;
-    public double GyroPositionRollRad;
+    public double YawPositionRad;
+    public double PitchPositionRad;
+    public double RollPositionRad;
 
-    public double GyroRateYawRadPerSecond;
-    public double GyroRatePitchRadPerSecond;
-    public double GyroRateRollRadPerSecond;
+    public double YawRateRadPerSecond;
+    public double PitchRateRadPerSecond;
+    public double RollRateRadPerSecond;
 
     public double AccelXGForce;
     public double AccelYGForce;

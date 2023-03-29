@@ -21,13 +21,13 @@ public class GyroIOPigeon2 implements GyroIO {
 
     inputs.Connected = m_gyro.getLastError().equals(ErrorCode.OK);
 
-    inputs.GyroPositionYawRad = Math.toRadians(m_gyro.getYaw());
-    inputs.GyroPositionPitchRad = Math.toRadians(m_gyro.getPitch());
-    inputs.GyroPositionRollRad = Math.toRadians(m_gyro.getRoll());
+    inputs.YawPositionRad = Math.toRadians(m_gyro.getYaw());
+    inputs.PitchPositionRad = Math.toRadians(m_gyro.getPitch());
+    inputs.RollPositionRad = Math.toRadians(m_gyro.getRoll());
 
-    inputs.GyroRateYawRadPerSecond = Math.toRadians(xyzDegreesPerSecond[2]);
-    inputs.GyroRatePitchRadPerSecond = Math.toRadians(xyzDegreesPerSecond[1]);
-    inputs.GyroRateRollRadPerSecond = Math.toRadians(xyzDegreesPerSecond[0]);
+    inputs.YawRateRadPerSecond = Math.toRadians(xyzDegreesPerSecond[2]);
+    inputs.PitchRateRadPerSecond = Math.toRadians(xyzDegreesPerSecond[1]);
+    inputs.RollRateRadPerSecond = Math.toRadians(xyzDegreesPerSecond[0]);
 
     inputs.AccelXGForce = (double) xyzAccelData[0] / (1 << 14);
     inputs.AccelYGForce = (double) xyzAccelData[1] / (1 << 14);
