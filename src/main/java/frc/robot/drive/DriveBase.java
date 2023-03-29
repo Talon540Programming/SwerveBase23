@@ -58,8 +58,9 @@ public class DriveBase extends SubsystemBase {
     m_gyroIO.updateInputs(m_gyroInputs);
     Logger.getInstance().processInputs("Drive/Gyro", m_gyroInputs);
 
-    m_estimator.update(m_gyroIO.getHeading(), getModulePositions());
+    Logger.getInstance().recordOutput("SwerveStates/Measured", getModuleStates());
 
+    m_estimator.update(m_gyroIO.getHeading(), getModulePositions());
     Logger.getInstance().recordOutput("EstimatedPose", m_estimator.getEstimatedPosition());
   }
 
