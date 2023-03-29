@@ -13,11 +13,13 @@ public interface SwerveModuleIO extends LoggedIO<SwerveModuleIO.SwerveModuleInpu
     public double DriveTempCelsius;
     public double DistanceTraveledMeters;
     public double VelocityMetersPerSecond;
+    public double DriveAppliedVoltage;
 
     public double SteerCurrentAmps;
     public double SteerTempCelsius;
     public double SteerPositionRad;
     public double SteerVelocityRadPerSec;
+    public double SteerAppliedVoltage;
 
     public double AbsoluteModulePositionRad;
   }
