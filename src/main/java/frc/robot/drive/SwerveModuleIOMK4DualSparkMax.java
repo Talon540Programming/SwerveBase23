@@ -111,17 +111,16 @@ public class SwerveModuleIOMK4DualSparkMax implements SwerveModuleIO {
   public void updateInputs(SwerveModuleInputs inputs) {
     inputs.DriveCurrentAmps = m_driveMotor.getOutputCurrent();
     inputs.DriveTempCelsius = m_driveMotor.getMotorTemperature();
-    inputs.DistanceTraveledMeters = m_driveEncoder.getPosition();
-    inputs.VelocityMetersPerSecond = m_driveEncoder.getVelocity();
     inputs.DriveAppliedVoltage = m_driveMotor.getAppliedOutput() * m_driveMotor.getBusVoltage();
-
-    inputs.SteerPositionRad = m_steerEncoder.getPosition();
-    inputs.SteerVelocityRadPerSec = m_steerEncoder.getVelocity();
     inputs.SteerCurrentAmps = m_steerMotor.getOutputCurrent();
     inputs.SteerTempCelsius = m_steerMotor.getMotorTemperature();
     inputs.SteerAppliedVoltage = m_steerMotor.getAppliedOutput() * m_steerMotor.getBusVoltage();
 
-    inputs.AbsoluteModulePositionRad = m_absoluteEncoder.getAbsolutePosition();
+    inputs.VelocityRadPerSec = m_steerEncoder.getVelocity();
+    inputs.VelocityMetersPerSec = m_driveEncoder.getVelocity();
+    inputs.AbsolutePositionRad = m_absoluteEncoder.getAbsolutePosition();
+    inputs.RelativePositionRad = m_steerEncoder.getPosition();
+    inputs.DistanceTraveledMeters = m_driveEncoder.getPosition();
   }
 
   @Override

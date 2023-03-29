@@ -11,17 +11,16 @@ public interface SwerveModuleIO extends LoggedIO<SwerveModuleIO.SwerveModuleInpu
   public class SwerveModuleInputs {
     public double DriveCurrentAmps;
     public double DriveTempCelsius;
-    public double DistanceTraveledMeters;
-    public double VelocityMetersPerSecond;
     public double DriveAppliedVoltage;
-
     public double SteerCurrentAmps;
     public double SteerTempCelsius;
-    public double SteerPositionRad;
-    public double SteerVelocityRadPerSec;
     public double SteerAppliedVoltage;
 
-    public double AbsoluteModulePositionRad;
+    public double VelocityRadPerSec;
+    public double VelocityMetersPerSec;
+    public double AbsolutePositionRad;
+    public double RelativePositionRad;
+    public double DistanceTraveledMeters;
   }
 
   default SwerveModuleState getState() {
