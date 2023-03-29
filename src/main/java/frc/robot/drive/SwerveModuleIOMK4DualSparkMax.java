@@ -155,8 +155,7 @@ public class SwerveModuleIOMK4DualSparkMax implements SwerveModuleIO {
 
   @Override
   public void stop() {
-    m_driveMotor.stopMotor();
-    m_steerMotor.stopMotor();
+    m_driveController.setReference(0.0, CANSparkMax.ControlType.kVelocity);
   }
 
   @Override
