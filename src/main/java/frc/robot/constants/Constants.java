@@ -65,7 +65,8 @@ public final class Constants {
     public static final boolean kSteerMotorInverted = true;
 
     public static final double kMaxVelocityMetersPerSecond = Units.feetToMeters(12.0); // SDS MK4 L1
-    // public static final double kMaxVelocityMetersPerSecond = Units.feetToMeters(14.5); // SDS MK4 L2
+    // public static final double kMaxVelocityMetersPerSecond = Units.feetToMeters(14.5); // SDS MK4
+    // L2
     public static final double kMaxAccelerationMetersPerSecondSquared = 3.5;
     public static final double kMaxRotationVelocityRadPerSecond = 2 * Math.PI;
 

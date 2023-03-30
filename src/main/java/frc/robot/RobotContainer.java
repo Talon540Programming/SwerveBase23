@@ -84,14 +84,11 @@ public class RobotContainer {
                 new SwerveModuleIO() {});
 
     configureBindings();
-    configureAuto();
   }
 
   private void configureBindings() {
     m_driveBase.setDefaultCommand(new DriveControl(m_driveBase, m_OIManager.getDriverInterface()));
   }
-
-  private void configureAuto() {}
 
   public Command getAutonomousCommand() {
     return null;
