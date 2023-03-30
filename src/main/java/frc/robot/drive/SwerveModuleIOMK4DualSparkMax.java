@@ -77,6 +77,7 @@ public class SwerveModuleIOMK4DualSparkMax implements SwerveModuleIO {
     m_driveController.setP(Constants.Drivetrain.ControlValues.Drive.kP);
     m_driveController.setI(Constants.Drivetrain.ControlValues.Drive.kI);
     m_driveController.setD(Constants.Drivetrain.ControlValues.Drive.kD);
+    m_driveController.setFF(Constants.Drivetrain.ControlValues.Drive.kFF);
 
     m_steerController.setP(Constants.Drivetrain.ControlValues.Steer.kP);
     m_steerController.setI(Constants.Drivetrain.ControlValues.Steer.kI);
