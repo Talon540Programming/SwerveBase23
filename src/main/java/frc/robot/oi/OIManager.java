@@ -8,7 +8,8 @@ public class OIManager {
 
   public OIManager() {
     if (RobotBase.isSimulation()) {
-      m_driverInterface = new PS4Driver(HardwareDevices.kDriverControllerPort);
+      // m_driverInterface = new PS4Driver(HardwareDevices.kDriverControllerPort);
+      m_driverInterface = new DualJoystickDriver(0, 1);
     } else {
       m_driverInterface = new XboxDriver(HardwareDevices.kDriverControllerPort);
     }
