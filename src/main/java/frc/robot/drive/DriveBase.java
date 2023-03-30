@@ -66,7 +66,7 @@ public class DriveBase extends SubsystemBase {
 
   @Override
   public void simulationPeriodic() {
-    m_gyroIO.incrementHeading(getChassisSpeeds().omegaRadiansPerSecond);
+    m_gyroIO.incrementHeading(getChassisSpeeds().omegaRadiansPerSecond * Constants.loopPeriodSecs);
   }
 
   public void resetOdometry(Pose2d poseMeters) {

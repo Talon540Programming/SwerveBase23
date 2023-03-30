@@ -2,7 +2,6 @@ package frc.robot.drive;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.simulation.AnalogGyroSim;
-import frc.robot.constants.Constants;
 
 public class GyroIOSim implements GyroIO {
   private final AnalogGyroSim m_gyro = new AnalogGyroSim(1);
@@ -24,7 +23,7 @@ public class GyroIOSim implements GyroIO {
   }
 
   @Override
-  public void incrementHeading(double omegaRadiansPerSecond) {
-    m_gyro.setAngle(m_gyro.getAngle() + omegaRadiansPerSecond * Constants.loopPeriodSecs);
+  public void incrementHeading(double incrementRad) {
+    m_gyro.setAngle(m_gyro.getAngle() + incrementRad);
   }
 }
