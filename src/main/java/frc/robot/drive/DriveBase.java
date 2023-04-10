@@ -84,7 +84,7 @@ public class DriveBase extends SubsystemBase {
   }
 
   /** Return module positions in order of kinematic initialization from modules */
-  private SwerveModulePosition[] getModulePositions() {
+  public SwerveModulePosition[] getModulePositions() {
     return new SwerveModulePosition[] {
       m_moduleIOs[0].getPosition(),
       m_moduleIOs[1].getPosition(),

@@ -13,12 +13,12 @@ public class PoseEstimator {
   public DriveBase m_SwerveModulePoss;
 
   private final SwerveDrivePoseEstimator m_poseEstimator =
-    new SwerveDrivePoseEstimator(
-       Drivetrain.kKinematics,
-       m_GyroIO.getHeading(),
-       m_SwerveModulePoss.getModulePositions(),
-       new Pose2d());
- 
+      new SwerveDrivePoseEstimator(
+          Drivetrain.kKinematics,
+          m_GyroIO.getHeading(),
+          m_SwerveModulePoss.getModulePositions(),
+          new Pose2d());
+
   public final Pose2d getPosition() {
     return m_poseEstimator.getEstimatedPosition();
   }
