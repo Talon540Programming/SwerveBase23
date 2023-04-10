@@ -1,7 +1,5 @@
 package frc.robot.drive;
 
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -9,6 +7,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.PoseEstimator;
 import frc.robot.constants.Constants;
 import org.littletonrobotics.junction.Logger;
 
@@ -25,8 +24,6 @@ public class DriveBase extends SubsystemBase {
   private final GyroIO m_gyroIO;
   private final GyroInputsAutoLogged m_gyroInputs = new GyroInputsAutoLogged();
 
-  private final SwerveDrivePoseEstimator m_estimator;
-
   public DriveBase(
       GyroIO gyro,
       SwerveModuleIO frontLeft,
@@ -40,12 +37,8 @@ public class DriveBase extends SubsystemBase {
       module.resyncEncoders();
     }
 
-    m_estimator =
-        new SwerveDrivePoseEstimator(
-            Constants.Drivetrain.kKinematics,
-            m_gyroIO.getHeading(),
-            getModulePositions(),
-            new Pose2d());
+    PoseEstimator.createInstance(
+        Constants.Drivetrain.kKinematics, m_gyroIO.getHeading(), getModulePositions());
   }
 
   @Override
@@ -60,17 +53,14 @@ public class DriveBase extends SubsystemBase {
 
     Logger.getInstance().recordOutput("SwerveStates/Measured", getModuleStates());
 
-    m_estimator.update(m_gyroIO.getHeading(), getModulePositions());
-    Logger.getInstance().recordOutput("EstimatedPose", m_estimator.getEstimatedPosition());
+    PoseEstimator.getInstance().update(m_gyroIO.getHeading(), getModulePositions());
+    Logger.getInstance()
+        .recordOutput("EstimatedPose", PoseEstimator.getInstance().getEstimatedPosition());
   }
 
   @Override
   public void simulationPeriodic() {
     m_gyroIO.incrementHeading(getChassisSpeeds().omegaRadiansPerSecond * Constants.loopPeriodSecs);
-  }
-
-  public void resetOdometry(Pose2d poseMeters) {
-    m_estimator.resetPosition(m_gyroIO.getHeading(), getModulePositions(), poseMeters);
   }
 
   /** Return module states in order of kinematic initialization from modules */
