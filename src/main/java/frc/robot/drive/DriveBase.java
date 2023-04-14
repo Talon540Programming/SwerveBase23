@@ -6,6 +6,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.PoseEstimator;
 import frc.robot.constants.Constants;
@@ -63,26 +64,6 @@ public class DriveBase extends SubsystemBase {
     m_gyroIO.incrementHeading(getChassisSpeeds().omegaRadiansPerSecond * Constants.loopPeriodSecs);
   }
 
-  /** Return module states in order of kinematic initialization from modules */
-  private SwerveModuleState[] getModuleStates() {
-    return new SwerveModuleState[] {
-      m_moduleIOs[0].getState(),
-      m_moduleIOs[1].getState(),
-      m_moduleIOs[2].getState(),
-      m_moduleIOs[3].getState()
-    };
-  }
-
-  /** Return module positions in order of kinematic initialization from modules */
-  private SwerveModulePosition[] getModulePositions() {
-    return new SwerveModulePosition[] {
-      m_moduleIOs[0].getPosition(),
-      m_moduleIOs[1].getPosition(),
-      m_moduleIOs[2].getPosition(),
-      m_moduleIOs[3].getPosition()
-    };
-  }
-
   public Rotation2d getHeading() {
     return m_gyroIO.getHeading();
   }
@@ -108,7 +89,7 @@ public class DriveBase extends SubsystemBase {
       Translation2d centerOfRobot,
       DriveMode driveMode) {
 
-    setFromModuleStates(
+    setModuleStates(
         Constants.Drivetrain.kKinematics.toSwerveModuleStates(
             switch (driveMode) {
               case kRobot -> new ChassisSpeeds(xSpeed, ySpeed, rotationalSpeed);
@@ -133,8 +114,8 @@ public class DriveBase extends SubsystemBase {
   }
 
   /** Apply module states to modules based on a ChassisSpeed object */
-  public final void setFromChassisSpeed(ChassisSpeeds chassisSpeed) {
-    setFromModuleStates(Constants.Drivetrain.kKinematics.toSwerveModuleStates(chassisSpeed));
+  public final void setChassisSpeed(ChassisSpeeds chassisSpeed) {
+    setModuleStates(Constants.Drivetrain.kKinematics.toSwerveModuleStates(chassisSpeed));
   }
 
   /**
@@ -142,7 +123,7 @@ public class DriveBase extends SubsystemBase {
    *
    * @implNote MODULES MUST BE GIVEN IN ORDER: FRONT LEFT -> FRONT RIGHT -> BACK LEFT -> BACK RIGHT
    */
-  public final void setFromModuleStates(SwerveModuleState[] states) {
+  public final void setModuleStates(SwerveModuleState[] states) {
     SwerveDriveKinematics.desaturateWheelSpeeds(
         states, Constants.Drivetrain.kMaxVelocityMetersPerSecond);
 
@@ -155,6 +136,39 @@ public class DriveBase extends SubsystemBase {
     for (SwerveModuleIO module : m_moduleIOs) {
       module.stop();
     }
+  }
+
+  public void stopWithX() {
+    double[] stopAngles = new double[] {
+            -Math.PI / 4.0,
+            Math.PI / 4.0,
+            Math.PI / 4.0,
+            -Math.PI / 4.0
+    };
+
+    for(int i = 0; i < m_moduleIOs.length; i++) {
+      m_moduleIOs[i].setState(new SwerveModuleState(0, Rotation2d.fromRadians(stopAngles[i])));
+    }
+  }
+
+  /** Return module states in order of kinematic initialization from modules */
+  private SwerveModuleState[] getModuleStates() {
+    return new SwerveModuleState[] {
+            m_moduleIOs[0].getState(),
+            m_moduleIOs[1].getState(),
+            m_moduleIOs[2].getState(),
+            m_moduleIOs[3].getState()
+    };
+  }
+
+  /** Return module positions in order of kinematic initialization from modules */
+  private SwerveModulePosition[] getModulePositions() {
+    return new SwerveModulePosition[] {
+            m_moduleIOs[0].getPosition(),
+            m_moduleIOs[1].getPosition(),
+            m_moduleIOs[2].getPosition(),
+            m_moduleIOs[3].getPosition()
+    };
   }
 
   public enum DriveMode {
