@@ -56,7 +56,7 @@ public class SwerveModuleIOMK4DualSparkMax implements SwerveModuleIO {
     m_driveMotor.setSmartCurrentLimit(40);
     m_driveMotor.enableVoltageCompensation(12.0);
 
-    m_steerMotor.setSmartCurrentLimit(40);
+    m_steerMotor.setSmartCurrentLimit(20);
     m_steerMotor.enableVoltageCompensation(12.0);
 
     m_driveEncoder.setPositionConversionFactor(driveConversionFactor);
