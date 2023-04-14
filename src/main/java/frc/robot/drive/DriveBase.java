@@ -6,7 +6,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.PoseEstimator;
 import frc.robot.constants.Constants;
@@ -139,14 +138,10 @@ public class DriveBase extends SubsystemBase {
   }
 
   public void stopWithX() {
-    double[] stopAngles = new double[] {
-            -Math.PI / 4.0,
-            Math.PI / 4.0,
-            Math.PI / 4.0,
-            -Math.PI / 4.0
-    };
+    double[] stopAngles =
+        new double[] {-Math.PI / 4.0, Math.PI / 4.0, Math.PI / 4.0, -Math.PI / 4.0};
 
-    for(int i = 0; i < m_moduleIOs.length; i++) {
+    for (int i = 0; i < m_moduleIOs.length; i++) {
       m_moduleIOs[i].setState(new SwerveModuleState(0, Rotation2d.fromRadians(stopAngles[i])));
     }
   }
@@ -154,20 +149,20 @@ public class DriveBase extends SubsystemBase {
   /** Return module states in order of kinematic initialization from modules */
   private SwerveModuleState[] getModuleStates() {
     return new SwerveModuleState[] {
-            m_moduleIOs[0].getState(),
-            m_moduleIOs[1].getState(),
-            m_moduleIOs[2].getState(),
-            m_moduleIOs[3].getState()
+      m_moduleIOs[0].getState(),
+      m_moduleIOs[1].getState(),
+      m_moduleIOs[2].getState(),
+      m_moduleIOs[3].getState()
     };
   }
 
   /** Return module positions in order of kinematic initialization from modules */
   private SwerveModulePosition[] getModulePositions() {
     return new SwerveModulePosition[] {
-            m_moduleIOs[0].getPosition(),
-            m_moduleIOs[1].getPosition(),
-            m_moduleIOs[2].getPosition(),
-            m_moduleIOs[3].getPosition()
+      m_moduleIOs[0].getPosition(),
+      m_moduleIOs[1].getPosition(),
+      m_moduleIOs[2].getPosition(),
+      m_moduleIOs[3].getPosition()
     };
   }
 
