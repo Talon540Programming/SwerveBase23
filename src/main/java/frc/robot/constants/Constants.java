@@ -72,6 +72,7 @@ public final class Constants {
 
     public static final double kDriveGearRatio = 8.14; // SDS MK4 L1
     // public static final double kDriveGearRatio = 6.75; // SDS MK4 L2
+
     public static final double kSteerGearRatio = 12.8;
 
     public static final double kWheelRadiusInches = 2;
