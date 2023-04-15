@@ -30,7 +30,7 @@ public final class Constants {
   public static RobotType getRobotType() {
     if (RobotBase.isReal() && kRobotType == RobotType.ROBOT_SIMBOT) {
       DriverStation.reportError(
-          "Robot is set to SIM but it isn't a SIM, setting it to Competition Robot as redundancy.",
+          "Robot is set to SIM but it isn't a SIM, setting it to Swerve (Real) Robot as redundancy.",
           false);
       kRobotType = RobotType.ROBOT_SWERVE;
     }
