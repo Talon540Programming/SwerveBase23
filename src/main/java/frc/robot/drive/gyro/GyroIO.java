@@ -1,4 +1,4 @@
-package frc.robot.drive;
+package frc.robot.drive.gyro;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import frc.lib.LoggedIO;
