@@ -3,7 +3,6 @@ package frc.robot.drive.gyro;
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import edu.wpi.first.math.geometry.Rotation2d;
-import frc.robot.drive.gyro.GyroIO;
 
 public class GyroIOPigeon2 implements GyroIO {
   private final WPI_Pigeon2 m_gyro;
