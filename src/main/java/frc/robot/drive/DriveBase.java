@@ -33,6 +33,8 @@ public class DriveBase extends SubsystemBase {
     m_moduleIOs = new SwerveModuleIO[] {frontLeft, frontRight, backLeft, backRight};
     m_gyroIO = gyro;
 
+    m_gyroIO.resetHeading();
+
     for (SwerveModuleIO module : m_moduleIOs) {
       module.resyncEncoders();
     }
