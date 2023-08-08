@@ -34,7 +34,7 @@ public class RobotContainer {
                       Constants.Drivetrain.kSteerMotorInverted,
                       Constants.Drivetrain.kDriveMotorConversionFactor,
                       Constants.Drivetrain.kSteerMotorConversionFactor,
-                      Constants.Drivetrain.FrontLeft.kMagneticOffsetDegrees),
+                      Constants.Drivetrain.FrontLeft.kMagneticOffset),
                   // FRONT RIGHT
                   new SwerveModuleIOMK4DualSparkMax(
                       FrontRight.kDriveMotorId,
@@ -43,7 +43,7 @@ public class RobotContainer {
                       Constants.Drivetrain.kSteerMotorInverted,
                       Constants.Drivetrain.kDriveMotorConversionFactor,
                       Constants.Drivetrain.kSteerMotorConversionFactor,
-                      Constants.Drivetrain.FrontRight.kMagneticOffsetDegrees),
+                      Constants.Drivetrain.FrontRight.kMagneticOffset),
                   // BACK LEFT
                   new SwerveModuleIOMK4DualSparkMax(
                       BackLeft.kDriveMotorId,
@@ -52,7 +52,7 @@ public class RobotContainer {
                       Constants.Drivetrain.kSteerMotorInverted,
                       Constants.Drivetrain.kDriveMotorConversionFactor,
                       Constants.Drivetrain.kSteerMotorConversionFactor,
-                      Constants.Drivetrain.BackLeft.kMagneticOffsetDegrees),
+                      Constants.Drivetrain.BackLeft.kMagneticOffset),
                   // BACK RIGHT
                   new SwerveModuleIOMK4DualSparkMax(
                       BackRight.kDriveMotorId,
@@ -61,7 +61,7 @@ public class RobotContainer {
                       Constants.Drivetrain.kSteerMotorInverted,
                       Constants.Drivetrain.kDriveMotorConversionFactor,
                       Constants.Drivetrain.kSteerMotorConversionFactor,
-                      Constants.Drivetrain.BackRight.kMagneticOffsetDegrees));
+                      Constants.Drivetrain.BackRight.kMagneticOffset));
         }
         case ROBOT_SIMBOT -> {
           m_driveBase =

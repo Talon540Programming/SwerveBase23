@@ -85,25 +85,29 @@ public final class Constants {
     public static class FrontLeft {
       public static final Translation2d kCenterOffset =
           new Translation2d(Units.inchesToMeters(8.825180), Units.inchesToMeters(8.825180));
-      public static final double kMagneticOffsetDegrees = 0.0; // TODO
+      // offset between -1, 1
+      public static final double kMagneticOffset = 0.0; // TODO
     }
 
     public static class FrontRight {
       public static final Translation2d kCenterOffset =
           new Translation2d(Units.inchesToMeters(8.825180), -Units.inchesToMeters(8.825180));
-      public static final double kMagneticOffsetDegrees = 0.0; // TODO
+      // offset between -1, 1
+      public static final double kMagneticOffset = 0.0; // TODO
     }
 
     public static class BackLeft {
       public static final Translation2d kCenterOffset =
           new Translation2d(-Units.inchesToMeters(8.825180), Units.inchesToMeters(8.825180));
-      public static final double kMagneticOffsetDegrees = 0.0; // TODO
+      // offset between -1, 1
+      public static final double kMagneticOffset = 0.0; // TODO
     }
 
     public static class BackRight {
       public static final Translation2d kCenterOffset =
           new Translation2d(-Units.inchesToMeters(8.825180), -Units.inchesToMeters(8.825180));
-      public static final double kMagneticOffsetDegrees = 0.0; // TODO
+      // offset between -1, 1
+      public static final double kMagneticOffset = 0.0; // TODO
     }
 
     public static class ControlValues {
