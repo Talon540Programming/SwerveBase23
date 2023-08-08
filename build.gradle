@@ -118,6 +118,7 @@ gversion {
     indent       = "  "
 }
 
+project.compileJava.dependsOn(spotlessApply)
 spotless {
     java {
         target fileTree('.') {
