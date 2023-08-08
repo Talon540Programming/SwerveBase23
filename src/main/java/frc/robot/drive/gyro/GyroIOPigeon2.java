@@ -1,37 +1,29 @@
 package frc.robot.drive.gyro;
 
-import com.ctre.phoenix.ErrorCode;
-import com.ctre.phoenix.sensors.WPI_Pigeon2;
+import com.ctre.phoenix6.hardware.Pigeon2;
 import edu.wpi.first.math.geometry.Rotation2d;
 
 public class GyroIOPigeon2 implements GyroIO {
-  private final WPI_Pigeon2 m_gyro;
-
-  private final double[] xyzDegreesPerSecond = new double[3];
-  private final short[] xyzAccelData = new short[3];
+  private final Pigeon2 m_gyro;
 
   public GyroIOPigeon2(int gyroId) {
-    m_gyro = new WPI_Pigeon2(gyroId);
+    m_gyro = new Pigeon2(gyroId);
   }
 
   @Override
   public void updateInputs(GyroInputs inputs) {
-    m_gyro.getRawGyro(xyzDegreesPerSecond);
-    m_gyro.getBiasedAccelerometer(xyzAccelData);
+    inputs.RollPositionRad = Math.toRadians(m_gyro.getRoll().refresh().getValue());
+    inputs.PitchPositionRad = Math.toRadians(m_gyro.getPitch().refresh().getValue());
+    inputs.YawPositionRad = Math.toRadians(m_gyro.getYaw().refresh().getValue());
 
-    inputs.Connected = m_gyro.getLastError().equals(ErrorCode.OK);
+    inputs.RollRateRadPerSecond = Math.toRadians(m_gyro.getAngularVelocityX().refresh().getValue());
+    inputs.PitchRateRadPerSecond =
+        Math.toRadians(m_gyro.getAngularVelocityY().refresh().getValue());
+    inputs.YawRateRadPerSecond = Math.toRadians(m_gyro.getAngularVelocityZ().refresh().getValue());
 
-    inputs.RollPositionRad = Math.toRadians(m_gyro.getRoll());
-    inputs.PitchPositionRad = Math.toRadians(m_gyro.getPitch());
-    inputs.YawPositionRad = Math.toRadians(m_gyro.getYaw());
-
-    inputs.RollRateRadPerSecond = Math.toRadians(xyzDegreesPerSecond[0]);
-    inputs.PitchRateRadPerSecond = Math.toRadians(xyzDegreesPerSecond[1]);
-    inputs.YawRateRadPerSecond = Math.toRadians(xyzDegreesPerSecond[2]);
-
-    inputs.AccelXGForce = (double) xyzAccelData[0] / (1 << 14);
-    inputs.AccelYGForce = (double) xyzAccelData[1] / (1 << 14);
-    inputs.AccelZGForce = (double) xyzAccelData[2] / (1 << 14);
+    inputs.AccelXGForce = m_gyro.getAccelerationX().refresh().getValue();
+    inputs.AccelYGForce = m_gyro.getAccelerationY().refresh().getValue();
+    inputs.AccelZGForce = m_gyro.getAccelerationZ().refresh().getValue();
   }
 
   @Override

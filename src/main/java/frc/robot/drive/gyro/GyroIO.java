@@ -7,8 +7,6 @@ import org.littletonrobotics.junction.AutoLog;
 public interface GyroIO extends LoggedIO<GyroIO.GyroInputs> {
   @AutoLog
   public class GyroInputs {
-    public boolean Connected;
-
     public double RollPositionRad;
     public double PitchPositionRad;
     public double YawPositionRad;
