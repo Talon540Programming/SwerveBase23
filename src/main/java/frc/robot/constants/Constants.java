@@ -1,6 +1,5 @@
 package frc.robot.constants;
 
-import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
@@ -8,31 +7,27 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
 
 public final class Constants {
-  /**
-   * Whether advanced logging should be enabled. This can be disabled if there is too much going on.
-   */
-  public static final boolean kAdvancedLoggingEnabled = true;
-
   private static RobotType kRobotType = RobotType.ROBOT_SIMBOT;
-  public static final double loopPeriodSecs = 0.02;
+
+  public static double kLoopPeriodSecs = 0.02;
 
   public enum RobotMode {
     REAL,
-    REPLAY,
-    SIM
+    SIM,
+    REPLAY
   }
 
   public enum RobotType {
-    ROBOT_SWERVE,
+    ROBOT_2023_OFFSEASON_SWERVE,
     ROBOT_SIMBOT
   }
 
   public static RobotType getRobotType() {
     if (RobotBase.isReal() && kRobotType == RobotType.ROBOT_SIMBOT) {
       DriverStation.reportError(
-          "Robot is set to SIM but it isn't a SIM, setting it to Swerve (Real) Robot as redundancy.",
+          "Robot is set to SIM but it isn't a SIM, setting it to Competition Robot as redundancy.",
           false);
-      kRobotType = RobotType.ROBOT_SWERVE;
+      kRobotType = RobotType.ROBOT_2023_OFFSEASON_SWERVE;
     }
 
     if (RobotBase.isSimulation() && kRobotType != RobotType.ROBOT_SIMBOT) {
@@ -46,96 +41,63 @@ public final class Constants {
 
   public static RobotMode getRobotMode() {
     return switch (getRobotType()) {
-      case ROBOT_SWERVE -> RobotBase.isReal() ? RobotMode.REAL : RobotMode.REPLAY;
+      case ROBOT_2023_OFFSEASON_SWERVE -> RobotBase.isReal() ? RobotMode.REAL : RobotMode.REPLAY;
       case ROBOT_SIMBOT -> RobotMode.SIM;
     };
   }
 
   public static class Drivetrain {
-    // MODULE LOAD ORDER IS FRONT LEFT -> FRONT RIGHT -> BACK LEFT -> BACK RIGHT
+    // L2 gearing
+    public static final double kDriveGearing = (50.0 / 14.0) * (17.0 / 27.0) * (45.0 / 15.0);
+    public static final double kTurnGearing = 12.8;
 
-    public static final SwerveDriveKinematics kKinematics =
-        new SwerveDriveKinematics(
-            FrontLeft.kCenterOffset, // FRONT LEFT
-            FrontRight.kCenterOffset, // FRONT RIGHT
-            BackLeft.kCenterOffset, // BACK LEFT
-            BackRight.kCenterOffset // BACK RIGHT
-            );
+    public static final boolean kTurnMotorInverted = false;
 
-    public static final boolean kSteerMotorInverted = true;
+    public static final double kWheelRadiusMeters = Units.inchesToMeters(2.0);
 
-    public static final double kMaxVelocityMetersPerSecond = Units.feetToMeters(12.0); // SDS MK4 L1
-    // public static final double kMaxVelocityMetersPerSecond = Units.feetToMeters(14.5); // SDS MK4
-    // L2
-    public static final double kMaxAccelerationMetersPerSecondSquared = 3.5;
-    public static final double kMaxRotationVelocityRadPerSecond = 2 * Math.PI;
+    public static final double kTrackWidthXMeters = Units.inchesToMeters(20.5); // TODO
+    public static final double kTrackWidthYMeters = Units.inchesToMeters(20.5); // TODO
+    public static final double kDriveBaseRadiusMeters =
+        Math.hypot(kTrackWidthXMeters / 2.0, kTrackWidthYMeters / 2.0);
 
-    public static final double kDriveGearRatio = 8.14; // SDS MK4 L1
-    // public static final double kDriveGearRatio = 6.75; // SDS MK4 L2
+    public static final double kMaxLinearVelocityMetersPerSecond = Units.feetToMeters(14.5);
+    public static final double kMaxLAngularVelocityRadiansPerSecond =
+        kMaxLinearVelocityMetersPerSecond / kDriveBaseRadiusMeters;
 
-    public static final double kSteerGearRatio = 12.8;
-
-    public static final double kWheelRadiusInches = 2;
-    public static final double KWheelRadiusMeters = Units.inchesToMeters(kWheelRadiusInches);
-
-    public static final double kDriveMotorConversionFactor =
-        2 * Math.PI * KWheelRadiusMeters / kDriveGearRatio;
-    public static final double kSteerMotorConversionFactor = 2 * Math.PI / kSteerGearRatio;
-
-    public static class FrontLeft {
-      public static final Translation2d kCenterOffset =
-          new Translation2d(Units.inchesToMeters(8.825180), Units.inchesToMeters(8.825180));
-      public static final double kMagneticOffsetDegrees = 0.0; // TODO
+    public static final class DriveCoefficients {
+      public static final double kS = 0.0; // TODO
+      public static final double kV = 0.0; // TODO
+      public static final double kA = 0.0; // TODO
+      public static final double kP = 0.0; // TODO
+      public static final double kI = 0.0; // TODO
+      public static final double kD = 0.0; // TODO
     }
 
-    public static class FrontRight {
-      public static final Translation2d kCenterOffset =
-          new Translation2d(Units.inchesToMeters(8.825180), -Units.inchesToMeters(8.825180));
-      public static final double kMagneticOffsetDegrees = 0.0; // TODO
+    public static final class TurnCoefficients {
+      public static final double kP = 0.0; // TODO
+      public static final double kI = 0.0; // TODO
+      public static final double kD = 0.0; // TODO
     }
 
-    public static class BackLeft {
-      public static final Translation2d kCenterOffset =
-          new Translation2d(-Units.inchesToMeters(8.825180), Units.inchesToMeters(8.825180));
-      public static final double kMagneticOffsetDegrees = 0.0; // TODO
-    }
-
-    public static class BackRight {
-      public static final Translation2d kCenterOffset =
-          new Translation2d(-Units.inchesToMeters(8.825180), -Units.inchesToMeters(8.825180));
-      public static final double kMagneticOffsetDegrees = 0.0; // TODO
-    }
-
-    public static class ControlValues {
-      public static class Drive {
-        public static final double kP = 0; // TODO
-        public static final double kI = 0; // TODO
-        public static final double kD = 0; // TODO
-        public static final double kFF = 0; // TODO
-      }
-
-      public static class Steer {
-        public static final double kP = 0; // TODO
-        public static final double kI = 0; // TODO
-        public static final double kD = 0; // TODO
-      }
-    }
-  }
-
-  public enum NeutralMode {
-    BRAKE,
-    COAST;
-
-    /**
-     * Convert the Neutral mode to one used by the SparkMax API.
-     *
-     * @return SparkMax Idle Mode.
-     */
-    public CANSparkMax.IdleMode toIdleMode() {
-      return switch (this) {
-        case BRAKE -> CANSparkMax.IdleMode.kBrake;
-        case COAST -> CANSparkMax.IdleMode.kCoast;
+    /** Returns an array of module translations. */
+    public static Translation2d[] getModuleTranslations() {
+      return new Translation2d[] {
+        new Translation2d(
+            Constants.Drivetrain.kTrackWidthXMeters / 2.0,
+            Constants.Drivetrain.kTrackWidthYMeters / 2.0),
+        new Translation2d(
+            Constants.Drivetrain.kTrackWidthXMeters / 2.0,
+            -Constants.Drivetrain.kTrackWidthYMeters / 2.0),
+        new Translation2d(
+            -Constants.Drivetrain.kTrackWidthXMeters / 2.0,
+            Constants.Drivetrain.kTrackWidthYMeters / 2.0),
+        new Translation2d(
+            -Constants.Drivetrain.kTrackWidthXMeters / 2.0,
+            -Constants.Drivetrain.kTrackWidthYMeters / 2.0)
       };
     }
+
+    public static final SwerveDriveKinematics m_kinematics =
+        new SwerveDriveKinematics(getModuleTranslations());
   }
 }

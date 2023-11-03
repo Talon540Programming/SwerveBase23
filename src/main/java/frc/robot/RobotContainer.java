@@ -1,98 +1,91 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.lib.SparkMaxBurnManager;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
+import frc.robot.commands.drive.DriveCommandFactory;
 import frc.robot.constants.Constants;
-import frc.robot.constants.HardwareDevices;
-import frc.robot.constants.HardwareDevices.SwerveBase.Drivetrain.*;
-import frc.robot.drive.*;
-import frc.robot.drive.commands.DriveControl;
-import frc.robot.drive.gyro.GyroIO;
-import frc.robot.drive.gyro.GyroIOPigeon2;
-import frc.robot.drive.gyro.GyroIOSim;
-import frc.robot.oi.OIManager;
+import frc.robot.constants.HardwareIds;
+import frc.robot.subsystems.drive.*;
+import frc.robot.subsystems.drive.DriveBase;
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 public class RobotContainer {
-  private DriveBase m_driveBase;
+  // Subsystems
+  private final DriveBase m_drive;
 
-  private final OIManager m_OIManager = new OIManager();
+  // Controller
+  private final CommandPS4Controller controller = new CommandPS4Controller(0);
+
+  // Dashboard inputs
+  private final LoggedDashboardChooser<Command> autoChooser =
+      new LoggedDashboardChooser<>("Auto Choices");
 
   public RobotContainer() {
-    SparkMaxBurnManager.checkBuildStatus();
-
-    if (Constants.getRobotMode() != Constants.RobotMode.REPLAY) {
-      switch (Constants.getRobotType()) {
-        case ROBOT_SWERVE -> {
-          m_driveBase =
-              new DriveBase(
-                  new GyroIOPigeon2(HardwareDevices.SwerveBase.kGyroId),
-                  // FRONT LEFT
-                  new SwerveModuleIOMK4DualSparkMax(
-                      FrontLeft.kDriveMotorId,
-                      FrontLeft.kSteerMotorId,
-                      FrontLeft.kAbsoluteEncoderId,
-                      Constants.Drivetrain.kSteerMotorInverted,
-                      Constants.Drivetrain.kDriveMotorConversionFactor,
-                      Constants.Drivetrain.kSteerMotorConversionFactor,
-                      Constants.Drivetrain.FrontLeft.kMagneticOffsetDegrees),
-                  // FRONT RIGHT
-                  new SwerveModuleIOMK4DualSparkMax(
-                      FrontRight.kDriveMotorId,
-                      FrontRight.kSteerMotorId,
-                      FrontRight.kAbsoluteEncoderId,
-                      Constants.Drivetrain.kSteerMotorInverted,
-                      Constants.Drivetrain.kDriveMotorConversionFactor,
-                      Constants.Drivetrain.kSteerMotorConversionFactor,
-                      Constants.Drivetrain.FrontRight.kMagneticOffsetDegrees),
-                  // BACK LEFT
-                  new SwerveModuleIOMK4DualSparkMax(
-                      BackLeft.kDriveMotorId,
-                      BackLeft.kSteerMotorId,
-                      BackLeft.kAbsoluteEncoderId,
-                      Constants.Drivetrain.kSteerMotorInverted,
-                      Constants.Drivetrain.kDriveMotorConversionFactor,
-                      Constants.Drivetrain.kSteerMotorConversionFactor,
-                      Constants.Drivetrain.BackLeft.kMagneticOffsetDegrees),
-                  // BACK RIGHT
-                  new SwerveModuleIOMK4DualSparkMax(
-                      BackRight.kDriveMotorId,
-                      BackRight.kSteerMotorId,
-                      BackRight.kAbsoluteEncoderId,
-                      Constants.Drivetrain.kSteerMotorInverted,
-                      Constants.Drivetrain.kDriveMotorConversionFactor,
-                      Constants.Drivetrain.kSteerMotorConversionFactor,
-                      Constants.Drivetrain.BackRight.kMagneticOffsetDegrees));
-        }
-        case ROBOT_SIMBOT -> {
-          m_driveBase =
-              new DriveBase(
-                  new GyroIOSim(),
-                  new SwerveModuleIOSim(),
-                  new SwerveModuleIOSim(),
-                  new SwerveModuleIOSim(),
-                  new SwerveModuleIOSim());
-        }
+    switch (Constants.getRobotMode()) {
+      case REAL -> {
+        m_drive =
+            new DriveBase(
+                new GyroIOPigeon2(HardwareIds.kPigeonId),
+                new ModuleIOSparkMax(
+                    HardwareIds.kFrontLeftDriveId,
+                    HardwareIds.kFrontLeftTurnId,
+                    HardwareIds.kFrontLeftEncoderId),
+                new ModuleIOSparkMax(
+                    HardwareIds.kFrontRightDriveId,
+                    HardwareIds.kFrontRightTurnId,
+                    HardwareIds.kFrontRightEncoderId),
+                new ModuleIOSparkMax(
+                    HardwareIds.kBackLeftDriveId,
+                    HardwareIds.kBackLeftTurnId,
+                    HardwareIds.kBackLeftEncoderId),
+                new ModuleIOSparkMax(
+                    HardwareIds.kBackRightDriveId,
+                    HardwareIds.kBackRightTurnId,
+                    HardwareIds.kBackRightEncoderId));
+      }
+      case SIM -> {
+        m_drive =
+            new DriveBase(
+                new GyroIO() {},
+                new ModuleIOSim(),
+                new ModuleIOSim(),
+                new ModuleIOSim(),
+                new ModuleIOSim());
+      }
+      default -> {
+        m_drive =
+            new DriveBase(
+                new GyroIO() {},
+                new ModuleIO() {},
+                new ModuleIO() {},
+                new ModuleIO() {},
+                new ModuleIO() {});
       }
     }
 
-    m_driveBase =
-        m_driveBase != null
-            ? m_driveBase
-            : new DriveBase(
-                new GyroIO() {},
-                new SwerveModuleIO() {},
-                new SwerveModuleIO() {},
-                new SwerveModuleIO() {},
-                new SwerveModuleIO() {});
+    // // Set up FF characterization routines
+    // autoChooser.addOption(
+    //     "DriveBase FF Characterization",
+    //     new FeedForwardCharacterization(
+    //         m_drive, m_drive::runCharacterizationVolts, m_drive::getCharacterizationVelocity));
 
-    configureBindings();
+    // Configure the button bindings
+    configureButtonBindings();
   }
 
-  private void configureBindings() {
-    m_driveBase.setDefaultCommand(new DriveControl(m_driveBase, m_OIManager.getDriverInterface()));
+  private void configureButtonBindings() {
+    m_drive.setDefaultCommand(
+        DriveCommandFactory.joystickDrive(
+            m_drive,
+            () -> -controller.getLeftY(),
+            () -> -controller.getLeftX(),
+            () -> -controller.getRightX(),
+            0.1));
+    controller.cross().onTrue(Commands.runOnce(m_drive::stopWithX, m_drive));
   }
 
   public Command getAutonomousCommand() {
-    return null;
+    return autoChooser.get();
   }
 }
