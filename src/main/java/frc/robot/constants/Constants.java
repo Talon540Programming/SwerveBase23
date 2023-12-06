@@ -55,13 +55,13 @@ public final class Constants {
 
     public static final double kWheelRadiusMeters = Units.inchesToMeters(2.0);
 
-    public static final double kTrackWidthXMeters = Units.inchesToMeters(20.5); // TODO
-    public static final double kTrackWidthYMeters = Units.inchesToMeters(20.5); // TODO
+    public static final double kTrackWidthXMeters = Units.inchesToMeters(20.5);
+    public static final double kTrackWidthYMeters = Units.inchesToMeters(20.5);
     public static final double kDriveBaseRadiusMeters =
         Math.hypot(kTrackWidthXMeters / 2.0, kTrackWidthYMeters / 2.0);
 
     public static final double kMaxLinearVelocityMetersPerSecond = Units.feetToMeters(14.5);
-    public static final double kMaxLAngularVelocityRadiansPerSecond =
+    public static final double kMaxAngularVelocityRadiansPerSecond =
         kMaxLinearVelocityMetersPerSecond / kDriveBaseRadiusMeters;
 
     public static final class DriveCoefficients {
