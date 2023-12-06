@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import frc.robot.commands.drive.DriveCommandFactory;
+import frc.robot.commands.drive.FeedForwardCharacterization;
 import frc.robot.constants.Constants;
 import frc.robot.constants.HardwareIds;
 import frc.robot.subsystems.drive.*;
@@ -65,10 +66,10 @@ public class RobotContainer {
     }
 
     // // Set up FF characterization routines
-    // autoChooser.addOption(
-    //     "DriveBase FF Characterization",
-    //     new FeedForwardCharacterization(
-    //         m_drive, m_drive::runCharacterizationVolts, m_drive::getCharacterizationVelocity));
+    autoChooser.addOption(
+        "DriveBase FF Characterization",
+        new FeedForwardCharacterization(
+            m_drive, m_drive::runCharacterizationVolts, m_drive::getCharacterizationVelocity));
 
     // Configure the button bindings
     configureButtonBindings();

@@ -1,6 +1,5 @@
 package frc.robot.subsystems.drive;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -123,18 +122,17 @@ public class Module {
     return optimizedState;
   }
 
-  /**
-   * Set the module output to the specified voltages
-   *
-   * @param driveVoltage drive voltage [-12, 12]
-   * @param turnVoltage turn voltage [-12, 12]
-   */
-  public void runVoltage(double driveVoltage, double turnVoltage) {
-    m_io.setDriveVoltage(MathUtil.clamp(driveVoltage, -12, 12));
-    m_io.setTurnVoltage(MathUtil.clamp(turnVoltage, -12, 12));
+  public void runCharacterization(double volts) {
+    // Closed loop turn control
+    m_turnAngleSetpoint = new Rotation2d();
 
-    m_turnAngleSetpoint = null;
+    // Open loop drive control
+    m_io.setDriveVoltage(volts);
     m_driveVelocitySetpoint = null;
+  }
+
+  public double getCharacterizationVelocity() {
+    return m_inputs.driveVelocityRadPerSec;
   }
 
   /** Disables all outputs to motors. */

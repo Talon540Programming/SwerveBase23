@@ -145,4 +145,18 @@ public class DriveBase extends SubsystemBase {
     }
     return states;
   }
+
+  public void runCharacterizationVolts(double volts) {
+    for (var module : m_modules) {
+      module.runCharacterization(volts);
+    }
+  }
+
+  public double getCharacterizationVelocity() {
+    double driveVelocityAverage = 0.0;
+    for (var module : m_modules) {
+      driveVelocityAverage += module.getCharacterizationVelocity();
+    }
+    return driveVelocityAverage / 4.0;
+  }
 }

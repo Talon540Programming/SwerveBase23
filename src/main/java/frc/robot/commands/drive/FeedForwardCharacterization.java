@@ -68,12 +68,6 @@ public class FeedForwardCharacterization extends Command {
     data.print();
   }
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
-
   public static class FeedForwardCharacterizationData {
     private final List<Double> velocityData = new LinkedList<>();
     private final List<Double> voltageData = new LinkedList<>();
