@@ -1,5 +1,12 @@
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.pathfinding.Pathfinding;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PathPlannerLogging;
+import com.pathplanner.lib.util.ReplanningConfig;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
@@ -8,7 +15,9 @@ import frc.robot.commands.drive.FeedForwardCharacterization;
 import frc.robot.constants.Constants;
 import frc.robot.constants.HardwareIds;
 import frc.robot.subsystems.drive.*;
-import frc.robot.subsystems.drive.DriveBase;
+import frc.robot.util.LocalADStarAK;
+import frc.robot.util.PoseEstimator;
+import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 public class RobotContainer {
@@ -19,8 +28,7 @@ public class RobotContainer {
   private final CommandPS4Controller controller = new CommandPS4Controller(0);
 
   // Dashboard inputs
-  private final LoggedDashboardChooser<Command> autoChooser =
-      new LoggedDashboardChooser<>("Auto Choices");
+  private final LoggedDashboardChooser<Command> autoChooser;
 
   public RobotContainer() {
     switch (Constants.getRobotMode()) {
@@ -64,6 +72,48 @@ public class RobotContainer {
                 new ModuleIO() {});
       }
     }
+
+    // Confiure PathPlanner
+    AutoBuilder.configureHolonomic(
+        () -> PoseEstimator.getInstance().getPose(),
+        (pose) -> PoseEstimator.getInstance().resetPose(pose),
+        () -> Constants.Drivetrain.m_kinematics.toChassisSpeeds(m_drive.getModuleStates()),
+        m_drive::runVelocity,
+        new HolonomicPathFollowerConfig(
+            Constants.Drivetrain.kMaxLinearVelocityMetersPerSecond,
+            Constants.Drivetrain.kDriveBaseRadiusMeters,
+            new ReplanningConfig()),
+        m_drive);
+    Pathfinding.setPathfinder(new LocalADStarAK());
+    PathPlannerLogging.setLogActivePathCallback(
+        (activePath) -> {
+          Logger.recordOutput(
+              "Odometry/Trajectory", activePath.toArray(new Pose2d[activePath.size()]));
+        });
+    PathPlannerLogging.setLogTargetPoseCallback(
+        (targetPose) -> {
+          Logger.recordOutput("Odometry/TrajectorySetpoint", targetPose);
+        });
+
+    autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
+
+    var straightLinePath = PathPlannerPath.fromPathFile("Straight Line Test");
+    var figEightPath = PathPlannerPath.fromPathFile("Figure 8 Test");
+
+    autoChooser.addOption(
+        "Straight Line",
+        AutoBuilder.followPathWithEvents(straightLinePath)
+            .beforeStarting(
+                () ->
+                    PoseEstimator.getInstance()
+                        .resetPose(straightLinePath.getPreviewStartingHolonomicPose())));
+    autoChooser.addOption(
+        "Figure 8",
+        AutoBuilder.followPathWithEvents(figEightPath)
+            .beforeStarting(
+                () ->
+                    PoseEstimator.getInstance()
+                        .resetPose(figEightPath.getPreviewStartingHolonomicPose())));
 
     // // Set up FF characterization routines
     autoChooser.addOption(
