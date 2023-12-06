@@ -30,12 +30,12 @@ public class DriveCommandFactory {
               // ChassisSpeeds.fromFieldRelativeSpeeds(
               //     x * Constants.Drivetrain.kMaxLinearVelocityMetersPerSecond,
               //     y * Constants.Drivetrain.kMaxLinearVelocityMetersPerSecond,
-              //     omega * Constants.Drivetrain.kMaxLAngularVelocityRadiansPerSecond,
+              //     omega * Constants.Drivetrain.kMaxAngularVelocityRadiansPerSecond,
               //     PoseEstimator.getInstance().getPose().getRotation())
               new ChassisSpeeds(
                   x * Constants.Drivetrain.kMaxLinearVelocityMetersPerSecond,
                   y * Constants.Drivetrain.kMaxLinearVelocityMetersPerSecond,
-                  omega * Constants.Drivetrain.kMaxLAngularVelocityRadiansPerSecond));
+                  omega * Constants.Drivetrain.kMaxAngularVelocityRadiansPerSecond));
         },
         driveBase);
   }
