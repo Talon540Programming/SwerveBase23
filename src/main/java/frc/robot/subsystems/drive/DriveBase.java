@@ -1,7 +1,6 @@
 package frc.robot.subsystems.drive;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -80,8 +79,8 @@ public class DriveBase extends SubsystemBase {
         // If the gyro is connected, replace the theta component of the twist
         // with the change in angle since the last sample.
         Rotation2d gyroRotation = m_gyroInputs.odometryYawPositions[i];
-        twist =
-            new Twist2d(twist.dx, twist.dy, gyroRotation.minus(m_lastGyroRotation).getRadians());
+        twist.dtheta = gyroRotation.minus(m_lastGyroRotation).getRadians();
+
         m_lastGyroRotation = gyroRotation;
       }
 
