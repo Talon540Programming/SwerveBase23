@@ -44,8 +44,7 @@ public class FeedForwardCharacterization extends Command {
   @Override
   public void initialize() {
     data = new FeedForwardCharacterizationData();
-    timer.reset();
-    timer.start();
+    timer.restart();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
