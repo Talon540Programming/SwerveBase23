@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.RobotBase;
 public final class Constants {
   private static RobotType kRobotType = RobotType.ROBOT_SIMBOT;
 
-  public static double kLoopPeriodSecs = 0.02;
+  public static final double kLoopPeriodSecs = 0.02;
 
   public enum RobotMode {
     REAL,

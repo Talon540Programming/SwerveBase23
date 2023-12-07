@@ -14,7 +14,7 @@ import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
 public class DriveBase extends SubsystemBase {
-  public static double ODOMETRY_FREQUENCY = 250.0;
+  public static final double ODOMETRY_FREQUENCY = 250.0;
 
   private final GyroIO m_gyroIO;
   private final GyroIOInputsAutoLogged m_gyroInputs = new GyroIOInputsAutoLogged();

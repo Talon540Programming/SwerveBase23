@@ -7,7 +7,7 @@ import Jama.QRDecomposition;
 // http://algs4.cs.princeton.edu/14analysis/PolynomialRegression.java.html
 
 /**
- * The {@code PolynomialRegression} class performs a polynomial regression on an set of <em>N</em>
+ * The {@code PolynomialRegression} class performs a polynomial regression on a set of <em>N</em>
  * data points (<em>y<sub>i</sub></em>, <em>x<sub>i</sub></em>). That is, it fits a polynomial
  * <em>y</em> = &beta;<sub>0</sub> + &beta;<sub>1</sub> <em>x</em> + &beta;<sub>2</sub>
  * <em>x</em><sup>2</sup> + ... + &beta;<sub><em>d</em></sub> <em>x</em><sup><em>d</em></sup> (where
@@ -154,12 +154,12 @@ public class PolynomialRegression implements Comparable<PolynomialRegression> {
    *     polynomial and the coefficient of determination <em>R</em><sup>2</sup>
    */
   public String toString() {
-    StringBuilder s = new StringBuilder();
     int j = degree;
 
     // ignoring leading zero coefficients
     while (j >= 0 && Math.abs(beta(j)) < 1E-5) j--;
 
+    StringBuilder s = new StringBuilder();
     // create remaining terms
     while (j >= 0) {
       if (j == 0) s.append(String.format("%.10f ", beta(j)));
@@ -167,7 +167,7 @@ public class PolynomialRegression implements Comparable<PolynomialRegression> {
       else s.append(String.format("%.10f %s^%d + ", beta(j), variableName, j));
       j--;
     }
-    s = s.append("  (R^2 = " + String.format("%.3f", R2()) + ")");
+    s.append("  (R^2 = ").append(String.format("%.3f", R2())).append(")");
 
     // replace "+ -2n" with "- 2n"
     return s.toString().replace("+ -", "- ");

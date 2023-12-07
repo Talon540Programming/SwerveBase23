@@ -73,7 +73,7 @@ public class RobotContainer {
       }
     }
 
-    // Confiure PathPlanner
+    // Configure PathPlanner
     AutoBuilder.configureHolonomic(
         () -> PoseEstimator.getInstance().getPose(),
         (pose) -> PoseEstimator.getInstance().resetPose(pose),
@@ -86,14 +86,10 @@ public class RobotContainer {
         m_drive);
     Pathfinding.setPathfinder(new LocalADStarAK());
     PathPlannerLogging.setLogActivePathCallback(
-        (activePath) -> {
-          Logger.recordOutput(
-              "Odometry/Trajectory", activePath.toArray(new Pose2d[activePath.size()]));
-        });
+        (activePath) ->
+            Logger.recordOutput("Odometry/Trajectory", activePath.toArray(new Pose2d[0])));
     PathPlannerLogging.setLogTargetPoseCallback(
-        (targetPose) -> {
-          Logger.recordOutput("Odometry/TrajectorySetpoint", targetPose);
-        });
+        (targetPose) -> Logger.recordOutput("Odometry/TrajectorySetpoint", targetPose));
 
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 

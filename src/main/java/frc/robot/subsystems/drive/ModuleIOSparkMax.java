@@ -83,7 +83,7 @@ public class ModuleIOSparkMax implements ModuleIO {
     inputs.driveAppliedVolts = m_driveMotor.getAppliedOutput() * m_driveMotor.getBusVoltage();
     inputs.driveCurrentAmps = new double[] {m_driveMotor.getOutputCurrent()};
 
-    // Refresh the Encoder data becasue it is cached. This is non-blocking.
+    // Refresh the Encoder data because it is cached. This is non-blocking.
     m_turnAbsoluteEncoder.refresh();
     inputs.turnAbsolutePosition =
         Rotation2d.fromRotations(m_turnAbsoluteEncoder.getValueAsDouble());
