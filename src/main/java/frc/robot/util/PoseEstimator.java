@@ -8,16 +8,19 @@ import java.util.concurrent.locks.ReentrantLock;
 public class PoseEstimator {
   private static PoseEstimator instance;
 
+  public static final double ODOMETRY_FREQUENCY = 250.0;
+  public static final Lock odometryLock = new ReentrantLock();
+
+  private Pose2d pose = new Pose2d();
+
+  private PoseEstimator() {}
+
   public static PoseEstimator getInstance() {
     if (instance == null) {
       instance = new PoseEstimator();
     }
-
     return instance;
   }
-
-  public static final Lock odometryLock = new ReentrantLock();
-  private Pose2d pose = new Pose2d();
 
   public Pose2d getPose() {
     return pose;

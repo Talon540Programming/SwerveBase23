@@ -7,6 +7,7 @@ import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
+import frc.robot.util.PoseEstimator;
 import java.util.Queue;
 
 /** IO implementation for Pigeon2 */
@@ -46,7 +47,7 @@ public class GyroIOPigeon2 implements GyroIO {
     this.m_accelZ = this.m_gyro.getAccelerationZ();
 
     // Faster rate for Yaw for Odometry
-    this.m_yaw.setUpdateFrequency(DriveBase.ODOMETRY_FREQUENCY);
+    this.m_yaw.setUpdateFrequency(PoseEstimator.ODOMETRY_FREQUENCY);
     this.m_yawVelocity.setUpdateFrequency(100);
     BaseStatusSignal.setUpdateFrequencyForAll(
         50.0, m_roll, m_pitch, m_rollVelocity, m_pitchVelocity, m_accelX, m_accelY, m_accelZ);

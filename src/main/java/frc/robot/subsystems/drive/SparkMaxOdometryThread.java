@@ -31,7 +31,7 @@ public class SparkMaxOdometryThread {
   private SparkMaxOdometryThread() {
     notifier = new Notifier(this::periodic);
     notifier.setName("SparkMaxOdometryThread");
-    notifier.startPeriodic(1.0 / DriveBase.ODOMETRY_FREQUENCY);
+    notifier.startPeriodic(1.0 / PoseEstimator.ODOMETRY_FREQUENCY);
   }
 
   public Queue<Double> registerSignal(DoubleSupplier signal) {

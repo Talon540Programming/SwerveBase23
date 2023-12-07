@@ -11,6 +11,7 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import frc.robot.constants.Constants;
+import frc.robot.util.PoseEstimator;
 import java.util.Queue;
 
 public class ModuleIOSparkMax implements ModuleIO {
@@ -61,9 +62,9 @@ public class ModuleIOSparkMax implements ModuleIO {
     this.m_turnMotor.setCANTimeout(0);
 
     this.m_driveMotor.setPeriodicFramePeriod(
-        PeriodicFrame.kStatus2, (int) (1000.0 / DriveBase.ODOMETRY_FREQUENCY));
+        PeriodicFrame.kStatus2, (int) (1000.0 / PoseEstimator.ODOMETRY_FREQUENCY));
     this.m_turnMotor.setPeriodicFramePeriod(
-        PeriodicFrame.kStatus2, (int) (1000.0 / DriveBase.ODOMETRY_FREQUENCY));
+        PeriodicFrame.kStatus2, (int) (1000.0 / PoseEstimator.ODOMETRY_FREQUENCY));
     this.drivePositionQueue =
         SparkMaxOdometryThread.getInstance().registerSignal(m_driveEncoder::getPosition);
     this.turnPositionQueue =
