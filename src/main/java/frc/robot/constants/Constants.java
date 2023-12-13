@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.RobotBase;
 
 public final class Constants {
   private static RobotType kRobotType = RobotType.ROBOT_SIMBOT;
+  // Allows tunable values to be changed when enabled
+  public static final boolean TUNING_MODE = true;
 
   public static final double kLoopPeriodSecs = 0.02;
 
