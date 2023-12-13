@@ -97,7 +97,7 @@ public class Module {
       m_driveController.setPID(driveKp.get(), driveKi.get(), driveKd.get());
     }
     if (turnKp.hasChanged() || turnKi.hasChanged() || turnKd.hasChanged()) {
-      m_driveController.setPID(turnKp.get(), turnKi.get(), turnKd.get());
+      m_turnController.setPID(turnKp.get(), turnKi.get(), turnKd.get());
     }
 
     // On first cycle, reset relative turn encoder
