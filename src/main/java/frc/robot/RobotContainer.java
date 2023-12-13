@@ -9,7 +9,7 @@ import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.drive.DriveCommandFactory;
 import frc.robot.commands.drive.FeedForwardCharacterization;
 import frc.robot.constants.Constants;
@@ -25,7 +25,7 @@ public class RobotContainer {
   private final DriveBase m_drive;
 
   // Controller
-  private final CommandPS4Controller controller = new CommandPS4Controller(0);
+  private final CommandXboxController controller = new CommandXboxController(0);
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
@@ -129,7 +129,7 @@ public class RobotContainer {
             () -> -controller.getLeftX(),
             () -> -controller.getRightX(),
             0.1));
-    controller.cross().onTrue(Commands.runOnce(m_drive::stopWithX, m_drive));
+    controller.x().onTrue(Commands.runOnce(m_drive::stopWithX, m_drive));
   }
 
   public Command getAutonomousCommand() {
