@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.drive.DriveBase;
+import frc.robot.util.PoseEstimator;
 import java.util.function.DoubleSupplier;
 
 public class DriveCommandFactory {
@@ -26,17 +27,23 @@ public class DriveCommandFactory {
           double omega =
               Math.copySign(Math.pow(MathUtil.applyDeadband(omega_val, deadband), 2), omega_val);
 
-          driveBase.runVelocity(
-              // ChassisSpeeds.fromFieldRelativeSpeeds(
-              //     x * Constants.Drivetrain.kMaxLinearVelocityMetersPerSecond,
-              //     y * Constants.Drivetrain.kMaxLinearVelocityMetersPerSecond,
-              //     omega * Constants.Drivetrain.kMaxAngularVelocityRadiansPerSecond,
-              //     PoseEstimator.getInstance().getPose().getRotation())
-              new ChassisSpeeds(
-                  x * Constants.Drivetrain.kMaxLinearVelocityMetersPerSecond,
-                  y * Constants.Drivetrain.kMaxLinearVelocityMetersPerSecond,
-                  omega * Constants.Drivetrain.kMaxAngularVelocityRadiansPerSecond));
+          driveBase.runVelocity(toFieldRelative(x, y, omega));
         },
         driveBase);
+  }
+
+  private static ChassisSpeeds toFieldRelative(double x, double y, double omega) {
+    return ChassisSpeeds.fromFieldRelativeSpeeds(
+        x * Constants.Drivetrain.kMaxLinearVelocityMetersPerSecond,
+        y * Constants.Drivetrain.kMaxLinearVelocityMetersPerSecond,
+        omega * Constants.Drivetrain.kMaxAngularVelocityRadiansPerSecond,
+        PoseEstimator.getInstance().getPose().getRotation());
+  }
+
+  private static ChassisSpeeds toRobotRelative(double x, double y, double omega) {
+    return new ChassisSpeeds(
+        x * Constants.Drivetrain.kMaxLinearVelocityMetersPerSecond,
+        y * Constants.Drivetrain.kMaxLinearVelocityMetersPerSecond,
+        omega * Constants.Drivetrain.kMaxAngularVelocityRadiansPerSecond);
   }
 }
