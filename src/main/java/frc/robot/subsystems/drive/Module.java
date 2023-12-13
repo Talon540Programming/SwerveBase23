@@ -21,6 +21,7 @@ public class Module {
 
   private Rotation2d m_turnRelativeOffset = null;
   private double m_lastPositionMeters;
+
   private SwerveModulePosition[] positionDeltas = new SwerveModulePosition[] {};
 
   private static final LoggedTunableNumber driveKp = new LoggedTunableNumber("DriveKp");
