@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.constants.Constants;
 import frc.robot.util.LoggerUtil;
+import java.nio.file.Path;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -23,7 +24,11 @@ public class Robot extends LoggedRobot {
     switch (Constants.getRobotMode()) {
       case REAL:
         // Running on a real robot, log to a USB stick
-        Logger.addDataReceiver(new WPILOGWriter("/U"));
+        var usbPath = Path.of("/U");
+        // Check if the USB is plugged in, log to it if so
+        if (usbPath.toFile().exists()) {
+          Logger.addDataReceiver(new WPILOGWriter(usbPath.toString()));
+        }
         Logger.addDataReceiver(new NT4Publisher());
         break;
       case SIM:
