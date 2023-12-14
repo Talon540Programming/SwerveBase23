@@ -91,13 +91,17 @@ public class Module {
   public void periodic() {
     Logger.processInputs("Drive/Module" + kModuleIndex, m_inputs);
 
-    if (driveKs.hasChanged() || driveKv.hasChanged()) {
+    if (driveKs.hasChanged(kModuleIndex) || driveKv.hasChanged(kModuleIndex)) {
       m_driveFeedforward = new SimpleMotorFeedforward(driveKs.get(), driveKv.get());
     }
-    if (driveKp.hasChanged() || driveKi.hasChanged() || driveKd.hasChanged()) {
+    if (driveKp.hasChanged(kModuleIndex)
+        || driveKi.hasChanged(kModuleIndex)
+        || driveKd.hasChanged(kModuleIndex)) {
       m_driveController.setPID(driveKp.get(), driveKi.get(), driveKd.get());
     }
-    if (turnKp.hasChanged() || turnKi.hasChanged() || turnKd.hasChanged()) {
+    if (turnKp.hasChanged(kModuleIndex)
+        || turnKi.hasChanged(kModuleIndex)
+        || turnKd.hasChanged(kModuleIndex)) {
       m_turnController.setPID(turnKp.get(), turnKi.get(), turnKd.get());
     }
 

@@ -1,6 +1,8 @@
 package frc.robot.util;
 
 import frc.robot.constants.Constants;
+import java.util.HashMap;
+import java.util.Map;
 import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 
 /**
@@ -12,7 +14,9 @@ public class LoggedTunableNumber {
 
   private final String key;
   private Double defaultValue = null;
-  private Double lastValue = null;
+
+  private final Map<Integer, Double> lastValues = new HashMap<>();
+
   private LoggedDashboardNumber dashboardNumber;
 
   /**
@@ -41,11 +45,15 @@ public class LoggedTunableNumber {
    * @param defaultValue The default value
    */
   public void initDefault(double defaultValue) {
-    if (this.defaultValue == null) {
-      this.defaultValue = defaultValue;
-      if (Constants.TUNING_MODE) {
-        dashboardNumber = new LoggedDashboardNumber(key, defaultValue);
-      }
+    if (this.defaultValue != null) {
+      throw new IllegalStateException(
+          String.format(
+              "[LoggedTunableNumber][%s] Has already been initialized with a default value.", key));
+    }
+
+    this.defaultValue = defaultValue;
+    if (Constants.TUNING_MODE) {
+      dashboardNumber = new LoggedDashboardNumber(key, defaultValue);
     }
   }
 
@@ -66,17 +74,21 @@ public class LoggedTunableNumber {
   }
 
   /**
-   * Checks whether the number has changed since the last time this method was called.
+   * Checks whether the number has changed since the last time this method was called. Returns true
+   * the first time this method is called.
    *
+   * @param id Unique identifier for the caller to avoid conflicts when shared between multiple
+   *     objects. Recommended approach is to pass the result of "hashCode()"
    * @return Whether the value has changed since the last time this method was called
    */
-  public boolean hasChanged() {
-    var currentVal = get();
-    if (lastValue == null || lastValue != currentVal) {
-      lastValue = currentVal;
+  public boolean hasChanged(int id) {
+    double currentValue = get();
+    var lastValue = lastValues.get(id);
+    if (lastValue == null || currentValue != lastValue) {
+      lastValues.put(id, currentValue);
       return true;
-    } else {
-      return false;
     }
+
+    return false;
   }
 }
