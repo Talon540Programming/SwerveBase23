@@ -43,6 +43,8 @@ public class LoggedTunableNumber {
    * Set the default value of the number. The default value can only be set once.
    *
    * @param defaultValue The default value
+   * @throws IllegalStateException If a default value has already been set either by the constructor
+   *     or by a previous call to this method.
    */
   public void initDefault(double defaultValue) {
     if (this.defaultValue != null) {
@@ -61,6 +63,7 @@ public class LoggedTunableNumber {
    * Get the current value, from dashboard if available and in tuning mode.
    *
    * @return The current value
+   * @throws IllegalStateException If a default value hasn't been set yet.
    */
   public double get() {
     if (defaultValue == null) {
