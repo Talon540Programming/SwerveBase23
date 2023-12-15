@@ -3,6 +3,8 @@ package frc.robot.util;
 import edu.wpi.first.wpilibj.RobotBase;
 import frc.generated.BuildConstants;
 import frc.robot.constants.Constants;
+import java.nio.file.Path;
+import java.util.Optional;
 import org.littletonrobotics.junction.Logger;
 
 public class LoggerUtil {
@@ -23,5 +25,21 @@ public class LoggerUtil {
       case 1 -> Logger.recordMetadata("GIT_STATUS", "Uncommitted changes");
       default -> Logger.recordMetadata("GIT_STATUS", "Unknown");
     }
+  }
+
+  /**
+   * Get the path to the logging directory. Returns Empty if the USB drive is not plugged into the
+   * robot.
+   *
+   * @return logging path. Empty if the drive is not plugged in.
+   */
+  public static Optional<Path> getLogPath() {
+    var usbPath = Path.of("/U");
+    // Return USB path if it is plugged in
+    if (usbPath.toFile().exists()) {
+      return Optional.of(usbPath);
+    }
+
+    return Optional.empty();
   }
 }
