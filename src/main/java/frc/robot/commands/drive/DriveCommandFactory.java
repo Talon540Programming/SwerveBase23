@@ -8,8 +8,33 @@ import frc.robot.constants.Constants;
 import frc.robot.subsystems.drive.DriveBase;
 import frc.robot.util.PoseEstimator;
 import java.util.function.DoubleSupplier;
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 public class DriveCommandFactory {
+  private static final LoggedDashboardChooser<Double> xCoefficient =
+      new LoggedDashboardChooser<>("Drive X Speed Limiter");
+  private static final LoggedDashboardChooser<Double> yCoefficient =
+      new LoggedDashboardChooser<>("Drive X Speed Limiter");
+  private static final LoggedDashboardChooser<Double> omegaCoefficient =
+      new LoggedDashboardChooser<>("Drive X Speed Limiter");
+
+  static {
+    xCoefficient.addDefaultOption("Default (100%)", 1.0);
+    xCoefficient.addOption("Fast (70%)", 0.7);
+    xCoefficient.addOption("Medium (30%)", 0.3);
+    xCoefficient.addOption("Slow (15%)", 0.15);
+
+    yCoefficient.addDefaultOption("Default (100%)", 1.0);
+    yCoefficient.addOption("Fast (70%)", 0.7);
+    yCoefficient.addOption("Medium (30%)", 0.3);
+    yCoefficient.addOption("Slow (15%)", 0.15);
+
+    omegaCoefficient.addDefaultOption("Default (100%)", 1.0);
+    omegaCoefficient.addOption("Fast (70%)", 0.7);
+    omegaCoefficient.addOption("Medium (30%)", 0.3);
+    omegaCoefficient.addOption("Slow (15%)", 0.15);
+  }
+
   public static Command joystickDrive(
       DriveBase driveBase,
       DoubleSupplier xSupplier,
@@ -18,9 +43,9 @@ public class DriveCommandFactory {
       double deadband) {
     return Commands.run(
         () -> {
-          double x_val = xSupplier.getAsDouble();
-          double y_val = ySupplier.getAsDouble();
-          double omega_val = omegaSupplier.getAsDouble();
+          double x_val = xSupplier.getAsDouble() * xCoefficient.get();
+          double y_val = ySupplier.getAsDouble() * yCoefficient.get();
+          double omega_val = omegaSupplier.getAsDouble() * omegaCoefficient.get();
 
           double x = Math.copySign(Math.pow(MathUtil.applyDeadband(x_val, deadband), 2), x_val);
           double y = Math.copySign(Math.pow(MathUtil.applyDeadband(y_val, deadband), 2), y_val);
