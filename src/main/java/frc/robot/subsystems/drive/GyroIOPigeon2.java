@@ -3,7 +3,6 @@ package frc.robot.subsystems.drive;
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.StatusSignal;
-import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
@@ -31,7 +30,6 @@ public class GyroIOPigeon2 implements GyroIO {
   public GyroIOPigeon2(int id) {
     this.m_gyro = new Pigeon2(id);
 
-    this.m_gyro.getConfigurator().apply(new Pigeon2Configuration());
     this.m_gyro.getConfigurator().setYaw(0.0);
 
     this.m_roll = this.m_gyro.getRoll();

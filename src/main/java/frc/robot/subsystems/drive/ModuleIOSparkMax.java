@@ -1,7 +1,6 @@
 package frc.robot.subsystems.drive;
 
 import com.ctre.phoenix6.StatusSignal;
-import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -33,7 +32,6 @@ public class ModuleIOSparkMax implements ModuleIO {
 
     this.m_driveMotor.restoreFactoryDefaults();
     this.m_turnMotor.restoreFactoryDefaults();
-    this.m_absoluteEncoder.getConfigurator().apply(new CANcoderConfiguration());
 
     this.m_driveMotor.setCANTimeout(250);
     this.m_turnMotor.setCANTimeout(250);
