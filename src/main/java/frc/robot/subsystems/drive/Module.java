@@ -41,12 +41,12 @@ public class Module {
   static {
     switch (Constants.getRobotMode()) {
       case REPLAY, REAL:
-        driveKp.initDefault(0.0); // TODO
-        driveKi.initDefault(0.0); // TODO
-        driveKd.initDefault(0.0); // TODO
-        driveKs.initDefault(0.0); // TODO
-        driveKv.initDefault(0.0); // TODO
-        turnKp.initDefault(7.0);
+        driveKp.initDefault(0.1);
+        driveKi.initDefault(0.0);
+        driveKd.initDefault(0.0);
+        driveKs.initDefault(0.14507);
+        driveKv.initDefault(0.13521);
+        turnKp.initDefault(5.0);
         turnKi.initDefault(0.0);
         turnKd.initDefault(0.0);
         break;
