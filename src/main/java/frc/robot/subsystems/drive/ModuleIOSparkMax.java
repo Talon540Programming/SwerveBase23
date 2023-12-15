@@ -33,7 +33,6 @@ public class ModuleIOSparkMax implements ModuleIO {
 
     this.m_driveMotor.restoreFactoryDefaults();
     this.m_turnMotor.restoreFactoryDefaults();
-    this.m_absoluteEncoder.getConfigurator().apply(new CANcoderConfiguration());
 
     this.m_driveMotor.setCANTimeout(250);
     this.m_turnMotor.setCANTimeout(250);
