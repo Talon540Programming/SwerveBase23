@@ -14,9 +14,9 @@ public class DriveCommandFactory {
   private static final LoggedDashboardChooser<Double> xCoefficient =
       new LoggedDashboardChooser<>("Drive X Speed Limiter");
   private static final LoggedDashboardChooser<Double> yCoefficient =
-      new LoggedDashboardChooser<>("Drive X Speed Limiter");
+      new LoggedDashboardChooser<>("Drive Y Speed Limiter");
   private static final LoggedDashboardChooser<Double> omegaCoefficient =
-      new LoggedDashboardChooser<>("Drive X Speed Limiter");
+      new LoggedDashboardChooser<>("Drive Omega Speed Limiter");
 
   static {
     xCoefficient.addDefaultOption("Default (100%)", 1.0);
