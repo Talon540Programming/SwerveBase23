@@ -66,21 +66,6 @@ public final class Constants {
     public static final double kMaxAngularVelocityRadiansPerSecond =
         kMaxLinearVelocityMetersPerSecond / kDriveBaseRadiusMeters;
 
-    public static final class DriveCoefficients {
-      public static final double kS = 0.0; // TODO
-      public static final double kV = 0.0; // TODO
-      public static final double kA = 0.0; // TODO
-      public static final double kP = 0.0; // TODO
-      public static final double kI = 0.0; // TODO
-      public static final double kD = 0.0; // TODO
-    }
-
-    public static final class TurnCoefficients {
-      public static final double kP = 0.0; // TODO
-      public static final double kI = 0.0; // TODO
-      public static final double kD = 0.0; // TODO
-    }
-
     /** Returns an array of module translations. */
     public static Translation2d[] getModuleTranslations() {
       return new Translation2d[] {

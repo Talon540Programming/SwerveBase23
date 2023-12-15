@@ -6,8 +6,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.constants.Constants;
-import frc.robot.constants.Constants.Drivetrain.DriveCoefficients;
-import frc.robot.constants.Constants.Drivetrain.TurnCoefficients;
 import frc.robot.util.LoggedTunableNumber;
 import org.littletonrobotics.junction.Logger;
 
@@ -43,14 +41,14 @@ public class Module {
   static {
     switch (Constants.getRobotMode()) {
       case REPLAY, REAL:
-        driveKp.initDefault(DriveCoefficients.kP);
-        driveKi.initDefault(DriveCoefficients.kI);
-        driveKd.initDefault(DriveCoefficients.kD);
-        driveKs.initDefault(DriveCoefficients.kS);
-        driveKv.initDefault(DriveCoefficients.kV);
-        turnKp.initDefault(TurnCoefficients.kP);
-        turnKi.initDefault(TurnCoefficients.kI);
-        turnKd.initDefault(TurnCoefficients.kD);
+        driveKp.initDefault(0.0); // TODO
+        driveKi.initDefault(0.0); // TODO
+        driveKd.initDefault(0.0); // TODO
+        driveKs.initDefault(0.0); // TODO
+        driveKv.initDefault(0.0); // TODO
+        turnKp.initDefault(7.0);
+        turnKi.initDefault(0.0);
+        turnKd.initDefault(0.0);
         break;
       case SIM:
         driveKp.initDefault(0.1);
