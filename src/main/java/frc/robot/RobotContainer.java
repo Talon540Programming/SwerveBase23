@@ -111,11 +111,13 @@ public class RobotContainer {
                     PoseEstimator.getInstance()
                         .resetPose(figEightPath.getPreviewStartingHolonomicPose())));
 
-    // // Set up FF characterization routines
-    autoChooser.addOption(
-        "DriveBase FF Characterization",
-        new FeedForwardCharacterization(
-            m_drive, m_drive::runCharacterizationVolts, m_drive::getCharacterizationVelocity));
+    if (Constants.TUNING_MODE) {
+      // Set up FF characterization routines
+      autoChooser.addOption(
+          "DriveBase FF Characterization",
+          new FeedForwardCharacterization(
+              m_drive, m_drive::runCharacterizationVolts, m_drive::getCharacterizationVelocity));
+    }
 
     // Configure the button bindings
     configureButtonBindings();
