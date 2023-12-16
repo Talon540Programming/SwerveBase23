@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.drive.DriveBase;
 import frc.robot.util.PoseEstimator;
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
@@ -41,16 +42,75 @@ public class DriveCommandFactory {
       DoubleSupplier ySupplier,
       DoubleSupplier omegaSupplier,
       double deadband) {
+    if (deadband <= 1.0) {
+      throw new IllegalArgumentException(
+          String.format(
+              "Invalid Deadband Configured. Deadband value should be (0.0, 1.0), supplied: %f",
+              deadband));
+    }
+
     return Commands.run(
         () -> {
           double x_val = xSupplier.getAsDouble() * xCoefficient.get();
           double y_val = ySupplier.getAsDouble() * yCoefficient.get();
           double omega_val = omegaSupplier.getAsDouble() * omegaCoefficient.get();
 
-          double x = Math.copySign(Math.pow(MathUtil.applyDeadband(x_val, deadband), 2), x_val);
-          double y = Math.copySign(Math.pow(MathUtil.applyDeadband(y_val, deadband), 2), y_val);
+          double x =
+              Math.copySign(
+                  Math.min(Math.pow(MathUtil.applyDeadband(x_val, deadband), 2), 1.0), x_val);
+          double y =
+              Math.copySign(
+                  Math.min(Math.pow(MathUtil.applyDeadband(y_val, deadband), 2), 1.0), y_val);
           double omega =
-              Math.copySign(Math.pow(MathUtil.applyDeadband(omega_val, deadband), 2), omega_val);
+              Math.copySign(
+                  Math.min(Math.pow(MathUtil.applyDeadband(omega_val, deadband), 2), 1.0),
+                  omega_val);
+
+          driveBase.runVelocity(toFieldRelative(x, y, omega));
+        },
+        driveBase);
+  }
+
+  public static Command sprintJoystickDrive(
+      DriveBase driveBase,
+      DoubleSupplier xSupplier,
+      DoubleSupplier ySupplier,
+      DoubleSupplier omegaSupplier,
+      BooleanSupplier sprintSupplier,
+      double maxNonSprintSpeed,
+      double deadband) {
+    if (maxNonSprintSpeed >= 1.0) {
+      throw new IllegalArgumentException(
+          String.format(
+              "Invalid non-sprint max speed. Max Sprint speed should be (0.0, 1.0), supplied %f",
+              maxNonSprintSpeed));
+    }
+    if (deadband <= 1.0) {
+      throw new IllegalArgumentException(
+          String.format(
+              "Invalid Deadband Configured. Deadband value should be (0.0, 1.0), supplied: %f",
+              deadband));
+    }
+
+    return Commands.run(
+        () -> {
+          double x_val = xSupplier.getAsDouble() * xCoefficient.get() * maxNonSprintSpeed;
+          double y_val = ySupplier.getAsDouble() * yCoefficient.get() * maxNonSprintSpeed;
+          double omega_val = omegaSupplier.getAsDouble() * omegaCoefficient.get();
+
+          double sprintVal = sprintSupplier.getAsBoolean() ? 0.5 : 0.0;
+          double x =
+              Math.copySign(
+                  Math.min(Math.pow(MathUtil.applyDeadband(x_val, deadband), 2) + sprintVal, 1.0),
+                  x_val);
+          double y =
+              Math.copySign(
+                  Math.min(Math.pow(MathUtil.applyDeadband(y_val, deadband), 2) + sprintVal, 1.0),
+                  y_val);
+          double omega =
+              Math.copySign(
+                  Math.min(Math.pow(MathUtil.applyDeadband(omega_val, deadband), 2), 1.0),
+                  omega_val);
 
           driveBase.runVelocity(toFieldRelative(x, y, omega));
         },
