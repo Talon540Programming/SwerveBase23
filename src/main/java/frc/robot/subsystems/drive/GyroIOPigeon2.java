@@ -60,7 +60,18 @@ public class GyroIOPigeon2 implements GyroIO {
   @Override
   public void updateInputs(GyroIOInputs inputs) {
     // Only check yaw and yaw velocity as they are needed for odometry
-    inputs.connected = BaseStatusSignal.refreshAll(m_yaw, m_yawVelocity).equals(StatusCode.OK);
+    inputs.connected =
+        BaseStatusSignal.refreshAll(
+                m_roll,
+                m_pitch,
+                m_yaw,
+                m_rollVelocity,
+                m_pitchVelocity,
+                m_yawVelocity,
+                m_accelX,
+                m_accelY,
+                m_accelZ)
+            .equals(StatusCode.OK);
 
     inputs.rollPosition = Rotation2d.fromDegrees(m_roll.getValueAsDouble());
     inputs.pitchPosition = Rotation2d.fromDegrees(m_pitch.getValueAsDouble());
