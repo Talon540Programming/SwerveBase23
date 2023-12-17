@@ -36,9 +36,9 @@ public class GyroIOPigeon2 implements GyroIO {
     this.m_pitch = this.m_gyro.getPitch();
     this.m_yaw = this.m_gyro.getYaw();
 
-    this.m_rollVelocity = this.m_gyro.getAngularVelocityX();
-    this.m_pitchVelocity = this.m_gyro.getAngularVelocityY();
-    this.m_yawVelocity = this.m_gyro.getAngularVelocityZ();
+    this.m_rollVelocity = this.m_gyro.getAngularVelocityXWorld();
+    this.m_pitchVelocity = this.m_gyro.getAngularVelocityYWorld();
+    this.m_yawVelocity = this.m_gyro.getAngularVelocityZWorld();
 
     this.m_accelX = this.m_gyro.getAccelerationX();
     this.m_accelY = this.m_gyro.getAccelerationY();
