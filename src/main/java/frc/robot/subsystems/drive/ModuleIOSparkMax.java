@@ -54,8 +54,6 @@ public class ModuleIOSparkMax implements ModuleIO {
     this.m_turnRelativeEncoder.setMeasurementPeriod(10);
     this.m_turnRelativeEncoder.setAverageDepth(2);
 
-    this.m_turnAbsoluteEncoder.setUpdateFrequency(50);
-
     this.m_driveMotor.setCANTimeout(0);
     this.m_turnMotor.setCANTimeout(0);
 
@@ -63,6 +61,8 @@ public class ModuleIOSparkMax implements ModuleIO {
         PeriodicFrame.kStatus2, (int) (1000.0 / PoseEstimator.ODOMETRY_FREQUENCY));
     this.m_turnMotor.setPeriodicFramePeriod(
         PeriodicFrame.kStatus2, (int) (1000.0 / PoseEstimator.ODOMETRY_FREQUENCY));
+    this.m_turnAbsoluteEncoder.setUpdateFrequency(50);
+
     this.drivePositionQueue =
         SparkMaxOdometryThread.getInstance().registerSignal(m_driveEncoder::getPosition);
     this.turnPositionQueue =
@@ -70,6 +70,8 @@ public class ModuleIOSparkMax implements ModuleIO {
 
     this.m_driveMotor.burnFlash();
     this.m_turnMotor.burnFlash();
+
+    this.m_absoluteEncoder.optimizeBusUtilization();
   }
 
   @Override

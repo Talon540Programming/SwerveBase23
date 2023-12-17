@@ -49,11 +49,12 @@ public class GyroIOPigeon2 implements GyroIO {
     this.m_yawVelocity.setUpdateFrequency(100);
     BaseStatusSignal.setUpdateFrequencyForAll(
         50.0, m_roll, m_pitch, m_rollVelocity, m_pitchVelocity, m_accelX, m_accelY, m_accelZ);
-    m_gyro.optimizeBusUtilization();
 
     this.yawPositionQueue =
         SparkMaxOdometryThread.getInstance()
             .registerSignal(() -> m_gyro.getYaw().getValueAsDouble());
+
+    m_gyro.optimizeBusUtilization();
   }
 
   @Override
