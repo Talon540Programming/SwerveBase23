@@ -42,7 +42,7 @@ public class DriveCommandFactory {
       DoubleSupplier ySupplier,
       DoubleSupplier omegaSupplier,
       double deadband) {
-    if (deadband <= 1.0) {
+    if (deadband >= 1.0) {
       throw new IllegalArgumentException(
           String.format(
               "Invalid Deadband Configured. Deadband value should be (0.0, 1.0), supplied: %f",
@@ -85,7 +85,7 @@ public class DriveCommandFactory {
               "Invalid non-sprint max speed. Max Sprint speed should be (0.0, 1.0), supplied %f",
               maxNonSprintSpeed));
     }
-    if (deadband <= 1.0) {
+    if (deadband >= 1.0) {
       throw new IllegalArgumentException(
           String.format(
               "Invalid Deadband Configured. Deadband value should be (0.0, 1.0), supplied: %f",
