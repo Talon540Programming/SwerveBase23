@@ -125,11 +125,13 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     m_drive.setDefaultCommand(
-        DriveCommandFactory.joystickDrive(
+        DriveCommandFactory.sprintJoystickDrive(
             m_drive,
             () -> -controller.getLeftY(),
             () -> -controller.getLeftX(),
             () -> -controller.getRightX(),
+            controller.getHID()::getRightBumper,
+            0.5,
             0.1));
     controller.x().onTrue(Commands.runOnce(m_drive::stopWithX, m_drive));
   }

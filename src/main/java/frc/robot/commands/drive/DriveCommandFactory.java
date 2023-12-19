@@ -51,20 +51,28 @@ public class DriveCommandFactory {
 
     return Commands.run(
         () -> {
-          double x_val = xSupplier.getAsDouble() * xCoefficient.get();
-          double y_val = ySupplier.getAsDouble() * yCoefficient.get();
-          double omega_val = omegaSupplier.getAsDouble() * omegaCoefficient.get();
+          double x_val = MathUtil.applyDeadband(xSupplier.getAsDouble(), deadband);
+          double y_val = MathUtil.applyDeadband(ySupplier.getAsDouble(), deadband);
+          double omega_val = MathUtil.applyDeadband(omegaSupplier.getAsDouble(), deadband);
 
-          double x =
-              Math.copySign(
-                  Math.min(Math.pow(MathUtil.applyDeadband(x_val, deadband), 2), 1.0), x_val);
-          double y =
-              Math.copySign(
-                  Math.min(Math.pow(MathUtil.applyDeadband(y_val, deadband), 2), 1.0), y_val);
-          double omega =
-              Math.copySign(
-                  Math.min(Math.pow(MathUtil.applyDeadband(omega_val, deadband), 2), 1.0),
-                  omega_val);
+          double x = 0.0;
+          double y = 0.0;
+          double omega = 0.0;
+
+          if (x_val != 0) {
+            x_val = x_val * xCoefficient.get();
+            x = Math.copySign(Math.min(Math.pow(x_val, 2), 1.0), x_val);
+          }
+
+          if (y_val != 0) {
+            y_val = y_val * yCoefficient.get();
+            y = Math.copySign(Math.min(Math.pow(y_val, 2), 1.0), y_val);
+          }
+
+          if (omega_val != 0) {
+            omega_val = omega_val * omegaCoefficient.get();
+            omega = Math.copySign(Math.min(Math.pow(omega_val, 2), 1.0), omega_val);
+          }
 
           driveBase.runVelocity(toFieldRelative(x, y, omega));
         },
@@ -94,23 +102,34 @@ public class DriveCommandFactory {
 
     return Commands.run(
         () -> {
-          double x_val = xSupplier.getAsDouble() * xCoefficient.get() * maxNonSprintSpeed;
-          double y_val = ySupplier.getAsDouble() * yCoefficient.get() * maxNonSprintSpeed;
-          double omega_val = omegaSupplier.getAsDouble() * omegaCoefficient.get();
+          double x_val = MathUtil.applyDeadband(xSupplier.getAsDouble(), deadband);
+          double y_val = MathUtil.applyDeadband(ySupplier.getAsDouble(), deadband);
+          double omega_val = MathUtil.applyDeadband(omegaSupplier.getAsDouble(), deadband);
 
-          double sprintVal = sprintSupplier.getAsBoolean() ? 0.5 : 0.0;
-          double x =
-              Math.copySign(
-                  Math.min(Math.pow(MathUtil.applyDeadband(x_val, deadband), 2) + sprintVal, 1.0),
-                  x_val);
-          double y =
-              Math.copySign(
-                  Math.min(Math.pow(MathUtil.applyDeadband(y_val, deadband), 2) + sprintVal, 1.0),
-                  y_val);
-          double omega =
-              Math.copySign(
-                  Math.min(Math.pow(MathUtil.applyDeadband(omega_val, deadband), 2), 1.0),
-                  omega_val);
+          double x = 0.0;
+          double y = 0.0;
+          double omega = 0.0;
+
+          double sprintIncreaseVal = 1.0 - maxNonSprintSpeed;
+
+          if (x_val != 0) {
+            x_val =
+                (x_val * xCoefficient.get() * maxNonSprintSpeed)
+                    + (sprintSupplier.getAsBoolean() ? sprintIncreaseVal : 0.0);
+            x = Math.copySign(Math.min(Math.pow(x_val, 2), 1.0), x_val);
+          }
+
+          if (y_val != 0) {
+            y_val =
+                (y_val * yCoefficient.get() * maxNonSprintSpeed)
+                    + (sprintSupplier.getAsBoolean() ? sprintIncreaseVal : 0.0);
+            y = Math.copySign(Math.min(Math.pow(y_val, 2), 1.0), y_val);
+          }
+
+          if (omega_val != 0) {
+            omega_val = omega_val * omegaCoefficient.get();
+            omega = Math.copySign(Math.min(Math.pow(omega_val, 2), 1.0), omega_val);
+          }
 
           driveBase.runVelocity(toFieldRelative(x, y, omega));
         },
