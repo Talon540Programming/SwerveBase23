@@ -1,7 +1,6 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.pathfinding.Pathfinding;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PathPlannerLogging;
@@ -16,6 +15,7 @@ import frc.robot.constants.Constants;
 import frc.robot.constants.HardwareIds;
 import frc.robot.subsystems.drive.*;
 import frc.robot.util.LocalADStarAK;
+import frc.robot.util.PathPlannerUtil;
 import frc.robot.util.PoseEstimator;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
@@ -91,25 +91,10 @@ public class RobotContainer {
     PathPlannerLogging.setLogTargetPoseCallback(
         (targetPose) -> Logger.recordOutput("Odometry/TrajectorySetpoint", targetPose));
 
-    autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
-
-    var straightLinePath = PathPlannerPath.fromPathFile("Straight Line Test");
-    var figEightPath = PathPlannerPath.fromPathFile("Figure 8 Test");
-
-    autoChooser.addOption(
-        "Straight Line",
-        AutoBuilder.followPathWithEvents(straightLinePath)
-            .beforeStarting(
-                () ->
-                    PoseEstimator.getInstance()
-                        .resetPose(straightLinePath.getPreviewStartingHolonomicPose())));
-    autoChooser.addOption(
-        "Figure 8",
-        AutoBuilder.followPathWithEvents(figEightPath)
-            .beforeStarting(
-                () ->
-                    PoseEstimator.getInstance()
-                        .resetPose(figEightPath.getPreviewStartingHolonomicPose())));
+    autoChooser =
+        new LoggedDashboardChooser<>(
+            "Auto Choices",
+            PathPlannerUtil.configureChooserWithPaths(AutoBuilder.buildAutoChooser()));
 
     if (Constants.TUNING_MODE) {
       // Set up FF characterization routines
